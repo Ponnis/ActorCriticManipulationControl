@@ -1,0 +1,20 @@
+MuJoCo Pro Personal license activation key, number 78261, type 6.
+
+Issued to Marko Guberina <guberina@student.chalmers.se>.
+
+Expires May 6, 2022.
+
+This file activates MuJoCo Pro on a single computer with id:
+LINUX_CB5EnJxNO601B1AS0S0KGi_13h0212413TAy2S38203
+
+Do not modify this file. Its entire content, including the
+plain text section, is used by the activation manager.
+
+3a190301a67b6537bc43af731ee353161fe66b1ad51d674c6e0e5628593323c4
+6e58120a032d0376ce37b240d2946e750a4e44a8ab36989afebfff638faa5e9b
+1a6b29e948680bb7e68584c3de2b41ba375d7cc14ea54582265ca1be474b991f
+1fc0a3d0485182719373b5656b6235e83a61c301e9da06d85d10a51dc6bff531
+b04bb6e783baa821f913283082d83f8e6e8294f2a438df93cf56f2cd9ea506a2
+44c0319ff3654625708682f2fcdaa90f095e6aca301884f6970b4cbbf6fcc7d3
+9c92ba9416e9f209e5469d72893771401775cae27faf2e563af33da875753ece
+df745038bea0ce9473701515214d89ac3f367e25b6e4ea7dc184ffd58e378db1
