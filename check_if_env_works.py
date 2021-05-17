@@ -1,19 +1,20 @@
 import numpy as np
 import gym
+import gym_custom_fetch
 
-breakpoint()
-env = gym.make('FetchReach-v1')
+env = gym.make('custom_fetch-v0')
 #env = gym.make('FetchPickAndPlace-v1')
 env.render()
 obs = env.reset()
 done = False
+print(env.action_space)
 
 def policy(observation, desired_goal):
     # Here you would implement your smarter policy. In this case,
     # we just sample random actions.
     return env.action_space.sample()
 
-for i in range(20):
+for i in range(20000):
     while not done:
         env.render()
         action = policy(obs['observation'], obs['desired_goal'])

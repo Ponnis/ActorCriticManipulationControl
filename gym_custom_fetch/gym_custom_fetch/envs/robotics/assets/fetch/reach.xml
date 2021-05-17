@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<mujoco>
+	<compiler angle="radian" coordinate="local" meshdir="../stls/fetch" texturedir="../textures"></compiler>
+	<option timestep="0.002">
+		<flag warmstart="enable"></flag>
+	</option>
+
+	<include file="shared.xml"></include>
+	
+	<worldbody>
+		<geom name="floor0" pos="0.8 0.75 0" size="0.85 0.7 1" type="plane" condim="3" material="floor_mat"></geom>
+		<body name="floor0" pos="0.8 0.75 0">
+			<site name="target0" pos="0 0 0.5" size="0.02 0.02 0.02" rgba="1 0 0 1" type="sphere"></site>
+		</body>
+
+		<include file="robot.xml"></include>
+		
+		<body pos="1.3 0.75 0.2" name="table0">
+			<geom size="0.25 0.35 0.2" type="box" mass="2000" material="table_mat"></geom>
+		</body>
+
+		<light directional="true" ambient="0.2 0.2 0.2" diffuse="0.8 0.8 0.8" specular="0.3 0.3 0.3" castshadow="false" pos="0 0 4" dir="0 0 -1" name="light0"></light>
+	</worldbody>
+	
+	<actuator>
+		<position kp="1e4" ctrllimited="true" ctrlrange="-1.6056 1.6056" joint="robot0:shoulder_pan_joint" name="shoulder_pan" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-1.221 1.518" joint="robot0:shoulder_lift_joint" name="shoulder_lift" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="robot0:upperarm_roll_joint" name="upperarm_roll" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-2.251 2.251" joint="robot0:elbow_flex_joint" name="elbow_flex" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="robot0:forearm_roll_joint" name="forearm_roll" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-2.16 2.16" joint="robot0:wrist_flex_joint" name="wrist_flex" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="robot0:wrist_roll_joint" name="wrist_roll" />
+</actuator>
+
+
+<!--
+	<actuator>
+		<position kp="1e4" ctrllimited="true" ctrlrange="-1.6056 1.6056" joint="shoulder_pan_joint" name="shoulder_pan" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-1.221 1.518" joint="shoulder_lift_joint" name="shoulder_lift" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="upperarm_roll_joint" name="upperarm_roll" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-2.251 2.251" joint="elbow_flex_joint" name="elbow_flex" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="forearm_roll_joint" name="forearm_roll" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-2.16 2.16" joint="wrist_flex_joint" name="wrist_flex" />
+		<position kp="1e4" ctrllimited="true" ctrlrange="-3.14 3.14" joint="wrist_roll_joint" name="wrist_roll" />
+		</actuator>
+-->
+<!--
+	<actuator>
+		<motor gear="1" ctrllimited="true" ctrlrange="-33.82 33.82" joint="shoulder_pan_joint" name="shoulder_pan" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-131.76 131.76" joint="shoulder_lift_joint" name="shoulder_lift" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-76.94 76.94" joint="upperarm_roll_joint" name="upperarm_roll" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-66.18 66.18" joint="elbow_flex_joint" name="elbow_flex" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-29.35 29.35" joint="forearm_roll_joint" name="forearm_roll" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-25.70 25.70" joint="wrist_flex_joint" name="wrist_flex" />
+		<motor gear="1" ctrllimited="true" ctrlrange="-7.36 7.36" joint="wrist_roll_joint" name="wrist_roll" />
+	</actuator>
+-->
+</mujoco>
