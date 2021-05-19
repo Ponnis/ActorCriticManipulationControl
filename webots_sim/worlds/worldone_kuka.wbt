@@ -1,0 +1,380 @@
+#VRML_SIM R2020b utf8
+WorldInfo {
+  gravity 0
+  coordinateSystem "NUE"
+}
+Viewpoint {
+  orientation 0.045630968731576085 -0.9975423396316195 -0.053170436662607574 4.678737540025268
+  position 3.8013743901977017 0.9443303000473593 0.0698344524226979
+}
+TexturedBackground {
+  skybox FALSE
+  skyColor [
+    0.9 0.9 0.9
+  ]
+}
+TexturedBackgroundLight {
+}
+Robot {
+  rotation 1 0 0 -1.5708
+  children [
+    Display {
+      translation 0.5 0 0.6
+      rotation 0 0 1 -1.57
+      children [
+        Shape {
+          appearance PBRAppearance {
+            baseColorMap ImageTexture {
+              url [
+                "/usr/local/webots/projects/samples/devices/worlds/textures/white256.png"
+              ]
+              filtering 2
+            }
+            transparency 0.5
+            roughness 1
+          }
+          geometry Plane {
+          }
+        }
+      ]
+      width 200
+      height 200
+    }
+    base_link_0Mesh {
+    }
+    HingeJoint {
+      jointParameters HingeJointParameters {
+        position 0.9629805559397454
+        axis 0 0 1
+      }
+      device [
+        RotationalMotor {
+          name "joint_a1"
+          maxVelocity 1.4834
+        }
+        PositionSensor {
+          name "joint_a1_sensor"
+        }
+      ]
+      endPoint Solid {
+        rotation 0 0 1 0.9629805559397456
+        children [
+          link_1_0Mesh {
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              position 0.3372436931688509
+              axis 0 1 0
+              anchor -0.000436 0 0.36
+            }
+            device [
+              RotationalMotor {
+                name "joint_a2"
+                maxVelocity 1.4834
+              }
+              PositionSensor {
+                name "joint_a2_sensor"
+              }
+            ]
+            endPoint Solid {
+              translation -0.000436 0 0.36
+              rotation 0 1 0 0.33724369316885133
+              children [
+                link_2_0Mesh {
+                }
+                link_2_1Mesh {
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    position 0.10263429968920758
+                    axis 0 0 1
+                  }
+                  device [
+                    RotationalMotor {
+                      name "joint_a3"
+                      maxVelocity 1.7452
+                    }
+                    PositionSensor {
+                      name "joint_a3_sensor"
+                    }
+                  ]
+                  endPoint Solid {
+                    rotation 0 0 1 0.10263429968920788
+                    children [
+                      link_3_0Mesh {
+                      }
+                      link_3_1Mesh {
+                      }
+                      link_3_2Mesh {
+                      }
+                      HingeJoint {
+                        jointParameters HingeJointParameters {
+                          position -1.621292168943121
+                          axis 0 -1 0
+                          anchor 0.000436 0 0.42
+                        }
+                        device [
+                          RotationalMotor {
+                            name "joint_a4"
+                            maxVelocity 1.3089
+                          }
+                          PositionSensor {
+                            name "joint_a4_sensor"
+                          }
+                        ]
+                        endPoint Solid {
+                          translation 0.000436 0 0.42
+                          rotation 0 0.9999999999999999 0 1.6212921689431208
+                          children [
+                            link_4_0Mesh {
+                            }
+                            link_4_1Mesh {
+                            }
+                            link_4_2Mesh {
+                            }
+                            HingeJoint {
+                              jointParameters HingeJointParameters {
+                                position 2.4389880264407897
+                                axis 0 0 1
+                              }
+                              device [
+                                RotationalMotor {
+                                  name "joint_a5"
+                                  maxVelocity 2.2688
+                                }
+                                PositionSensor {
+                                  name "joint_a5_sensor"
+                                }
+                              ]
+                              endPoint Solid {
+                                rotation 0 0 1 2.4389880264407897
+                                children [
+                                  link_5_0Mesh {
+                                  }
+                                  link_5_1Mesh {
+                                  }
+                                  link_5_2Mesh {
+                                  }
+                                  HingeJoint {
+                                    jointParameters HingeJointParameters {
+                                      position 1.6614337610066103
+                                      axis 0 1 0
+                                      anchor 0 0 0.4
+                                    }
+                                    device [
+                                      RotationalMotor {
+                                        name "joint_a6"
+                                        maxVelocity 2.356
+                                      }
+                                      PositionSensor {
+                                        name "joint_a6_sensor"
+                                      }
+                                    ]
+                                    endPoint Solid {
+                                      translation 0 0 0.4
+                                      rotation 0 1 0 1.6614337610066103
+                                      children [
+                                        link_6_0Mesh {
+                                        }
+                                        link_6_1Mesh {
+                                        }
+                                        HingeJoint {
+                                          jointParameters HingeJointParameters {
+                                            position -0.07669680929990129
+                                            axis 0 0 1
+                                          }
+                                          device [
+                                            RotationalMotor {
+                                              name "joint_a7"
+                                              maxVelocity 2.356
+                                            }
+                                            PositionSensor {
+                                              name "joint_a7_sensor"
+                                            }
+                                          ]
+                                          endPoint Solid {
+                                            rotation 0 0 -1 0.07669680929990214
+                                            children [
+                                              link_7_0Mesh {
+                                              }
+                                              link_7_1Mesh {
+                                              }
+                                              link_7_2Mesh {
+                                              }
+                                              Solid {
+                                                translation 0 0 0.126
+                                                children [
+                                                  Transform {
+                                                    children [
+                                                      GPS {
+                                                        name "ee_gps"
+                                                      }
+                                                    ]
+                                                  }
+                                                ]
+                                                name "tool0"
+                                                physics Physics {
+                                                  density -1
+                                                  mass 1
+                                                  centerOfMass [
+                                                    0 0 0
+                                                  ]
+                                                }
+                                              }
+                                            ]
+                                            name "link_7"
+                                            boundingObject Transform {
+                                              translation -1e-06 9e-06 0.098559
+                                              children [
+                                                Box {
+                                                  size 0.103694 0.103857 0.054917
+                                                }
+                                              ]
+                                            }
+                                            physics Physics {
+                                              density -1
+                                              mass 1
+                                              centerOfMass [
+                                                0 0 0
+                                              ]
+                                            }
+                                          }
+                                        }
+                                      ]
+                                      name "link_6"
+                                      boundingObject Transform {
+                                        translation -6.6e-05 -0.001862 -0.002791
+                                        children [
+                                          Box {
+                                            size 0.132602 0.137681 0.167384
+                                          }
+                                        ]
+                                      }
+                                      physics Physics {
+                                        density -1
+                                        mass 1
+                                        centerOfMass [
+                                          0 0 0
+                                        ]
+                                      }
+                                    }
+                                  }
+                                ]
+                                name "link_5"
+                                boundingObject Transform {
+                                  translation -0.000121 -0.015503 0.313087
+                                  children [
+                                    Box {
+                                      size 0.136273 0.167034 0.277175
+                                    }
+                                  ]
+                                }
+                                physics Physics {
+                                  density -1
+                                  mass 1
+                                  centerOfMass [
+                                    0 0 0
+                                  ]
+                                }
+                              }
+                            }
+                          ]
+                          name "link_4"
+                          boundingObject Transform {
+                            translation 0.000269 -0.023503 0.058414
+                            children [
+                              Box {
+                                size 0.136926 0.183015 0.252173
+                              }
+                            ]
+                          }
+                          physics Physics {
+                            density -1
+                            mass 1
+                            centerOfMass [
+                              0 0 0
+                            ]
+                          }
+                        }
+                      }
+                    ]
+                    name "link_3"
+                    boundingObject Transform {
+                      translation -8e-06 0.023336 0.341069
+                      children [
+                        Box {
+                          size 0.136049 0.182662 0.293272
+                        }
+                      ]
+                    }
+                    physics Physics {
+                      density -1
+                      mass 1
+                      centerOfMass [
+                        0 0 0
+                      ]
+                    }
+                  }
+                }
+              ]
+              name "link_2"
+              boundingObject Transform {
+                translation -2.8e-05 0.032194 0.059714
+                children [
+                  Box {
+                    size 0.17132 0.199618 0.289575
+                  }
+                ]
+              }
+              physics Physics {
+                density -1
+                mass 1
+                centerOfMass [
+                  0 0 0
+                ]
+              }
+            }
+          }
+        ]
+        name "link_1"
+        boundingObject Transform {
+          translation -0.0001 -0.014686 0.296207
+          children [
+            Box {
+              size 0.171682 0.202325 0.29743
+            }
+          ]
+        }
+        physics Physics {
+          density -1
+          mass 1
+          centerOfMass [
+            0 0 0
+          ]
+        }
+      }
+    }
+    Solid {
+      translation 0 -1.568046332760606e-05 -3.2311742677852644e-26
+      name "base"
+      physics Physics {
+        density -1
+        mass 1
+        centerOfMass [
+          0 0 0
+        ]
+      }
+    }
+  ]
+  name "base_link"
+  model "base_link"
+  boundingObject Transform {
+    translation -0.007265 3e-05 0.07875
+    children [
+      Box {
+        size 0.257471 0.24259 0.1575
+      }
+    ]
+  }
+  controller "ik_control"
+}

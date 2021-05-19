@@ -1,0 +1,629 @@
+#VRML_SIM R2020b utf8
+# license: Apache License 2.0
+# license url: http://www.apache.org/licenses/LICENSE-2.0
+# This is a proto file for Webots for the J2s7s300
+# Extracted from: model.urdf
+
+PROTO J2s7s300 [
+  field  SFVec3f     translation     0 0 0
+  field  SFRotation  rotation        0 1 0 0
+  field  SFString    controller      "void" # Is `Robot.controller`.
+  field  MFString    controllerArgs  []     # Is `Robot.controllerArgs`.
+  field  SFString    customData      ""     # Is `Robot.customData`.
+  field  SFBool      supervisor      FALSE  # Is `Robot.supervisor`.
+  field  SFBool      synchronization TRUE   # Is `Robot.synchronization`.
+  field  SFBool      selfCollision   FALSE  # Is `Robot.selfCollision`.
+  field  MFNode      toolSlot        []     # nesto
+  field  SFBool      staticBase      TRUE   # nesto
+]
+{
+  Robot {
+    translation IS translation
+    rotation IS rotation
+    controller IS controller
+    controllerArgs IS controllerArgs
+    customData IS customData
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+    children [
+      base_0Mesh {
+      }
+      HingeJoint {
+        jointParameters HingeJointParameters {
+          axis -0.000000 0.000000 -1.000000
+          anchor 0.000000 0.000000 0.156750
+          dampingConstant 0.0
+          staticFriction 0.0
+        }
+        device [
+          RotationalMotor {
+            name "j2s7s300_joint_1"
+            maxVelocity 0.628318530718
+            minPosition 0.0
+            maxPosition 0.0
+            maxTorque 40.0
+          }
+          PositionSensor {
+            name "j2s7s300_joint_1_sensor"
+          }
+        ]
+        endPoint Solid {
+          translation 0.000000 0.000000 0.156750
+          rotation -0.000000 1.000000 -0.000000 3.141593
+          children [
+            shoulder_0Mesh {
+            }
+            ring_big_0Mesh {
+            }
+            HingeJoint {
+              jointParameters HingeJointParameters {
+                position 3.141593 
+                axis 0.000000 -1.000000 0.000000
+                anchor 0.000000 0.001600 -0.118750
+                dampingConstant 0.0
+                staticFriction 0.0
+              }
+              device [
+                RotationalMotor {
+                  name "j2s7s300_joint_2"
+                  maxVelocity 0.628318530718
+                  minPosition 0.0
+                  maxPosition 0.0
+                  maxTorque 80.0
+                }
+                PositionSensor {
+                  name "j2s7s300_joint_2_sensor"
+                }
+              ]
+              endPoint Solid {
+                translation 0.000000 0.001600 -0.118750
+                rotation 2.000000 0.000000 -0.000000 1.570796
+                children [
+                  arm_half_1_0Mesh {
+                  }
+                  ring_big_0Mesh {
+                  }
+                  HingeJoint {
+                    jointParameters HingeJointParameters {
+                      axis 0.000000 1.000000 0.000000
+                      anchor 0.000000 -0.205000 0.000000
+                      dampingConstant 0.0
+                      staticFriction 0.0
+                    }
+                    device [
+                      RotationalMotor {
+                        name "j2s7s300_joint_3"
+                        maxVelocity 0.628318530718
+                        minPosition 0.0
+                        maxPosition 0.0
+                        maxTorque 40.0
+                      }
+                      PositionSensor {
+                        name "j2s7s300_joint_3_sensor"
+                      }
+                    ]
+                    endPoint Solid {
+                      translation 0.000000 -0.205000 0.000000
+                      rotation -1.000000 0.000000 0.000000 1.570796
+                      children [
+                        arm_half_2_0Mesh {
+                        }
+                        ring_big_0Mesh {
+                        }
+                        HingeJoint {
+                          jointParameters HingeJointParameters {
+                            position 3.141593 
+                            axis -0.000000 1.000000 0.000000
+                            anchor 0.000000 0.000000 -0.205000
+                            dampingConstant 0.0
+                            staticFriction 0.0
+                          }
+                          device [
+                            RotationalMotor {
+                              name "j2s7s300_joint_4"
+                              maxVelocity 0.628318530718
+                              minPosition 0.0
+                              maxPosition 0.0
+                              maxTorque 40.0
+                            }
+                            PositionSensor {
+                              name "j2s7s300_joint_4_sensor"
+                            }
+                          ]
+                          endPoint Solid {
+                            translation 0.000000 0.000000 -0.205000
+                            rotation -2.000000 -0.000000 -0.000000 1.570796
+                            children [
+                              forearm_0Mesh {
+                              }
+                              ring_small_0Mesh {
+                              }
+                              HingeJoint {
+                                jointParameters HingeJointParameters {
+                                  axis 0.000000 -1.000000 0.000000
+                                  anchor 0.000000 0.207300 -0.011400
+                                  dampingConstant 0.0
+                                  staticFriction 0.0
+                                }
+                                device [
+                                  RotationalMotor {
+                                    name "j2s7s300_joint_5"
+                                    maxVelocity 0.837758040957
+                                    minPosition 0.0
+                                    maxPosition 0.0
+                                    maxTorque 20.0
+                                  }
+                                  PositionSensor {
+                                    name "j2s7s300_joint_5_sensor"
+                                  }
+                                ]
+                                endPoint Solid {
+                                  translation 0.000000 0.207300 -0.011400
+                                  rotation 0.000000 -0.707107 0.707107 3.141593
+                                  children [
+                                    wrist_spherical_1_0Mesh {
+                                    }
+                                    ring_small_0Mesh {
+                                    }
+                                    HingeJoint {
+                                      jointParameters HingeJointParameters {
+                                        position 3.141593 
+                                        axis -0.000000 1.000000 0.000000
+                                        anchor 0.000000 0.000000 -0.103750
+                                        dampingConstant 0.0
+                                        staticFriction 0.0
+                                      }
+                                      device [
+                                        RotationalMotor {
+                                          name "j2s7s300_joint_6"
+                                          maxVelocity 0.837758040957
+                                          minPosition 0.0
+                                          maxPosition 0.0
+                                          maxTorque 20.0
+                                        }
+                                        PositionSensor {
+                                          name "j2s7s300_joint_6_sensor"
+                                        }
+                                      ]
+                                      endPoint Solid {
+                                        translation 0.000000 0.000000 -0.103750
+                                        rotation -2.000000 0.000000 0.000000 1.570796
+                                        children [
+                                          wrist_spherical_2_0Mesh {
+                                          }
+                                          ring_small_0Mesh {
+                                          }
+                                          HingeJoint {
+                                            jointParameters HingeJointParameters {
+                                              axis 0.000000 -1.000000 0.000000
+                                              anchor 0.000000 0.103750 0.000000
+                                              dampingConstant 0.0
+                                              staticFriction 0.0
+                                            }
+                                            device [
+                                              RotationalMotor {
+                                                name "j2s7s300_joint_7"
+                                                maxVelocity 0.837758040957
+                                                minPosition 0.0
+                                                maxPosition 0.0
+                                                maxTorque 20.0
+                                              }
+                                              PositionSensor {
+                                                name "j2s7s300_joint_7_sensor"
+                                              }
+                                            ]
+                                            endPoint Solid {
+                                              translation 0.000000 0.103750 0.000000
+                                              rotation 0.000000 -0.707107 0.707107 3.141593
+                                              children [
+                                                hand_3finger_0Mesh {
+                                                }
+                                                ring_small_0Mesh {
+                                                }
+                                                Solid {
+                                                  translation 0.000000 0.000000 -0.160000
+                                                  rotation 0.707107 0.707107 -0.000000 3.141593
+                                                  name "j2s7s300_end_effector"
+                                                  children [
+                                                    Transform {
+                                                      translation 0 0 0
+                                                      rotation 0 1 0 0
+                                                      children IS toolSlot
+                                                    }
+                                                  ]
+                                                  physics Physics {
+                                                    density -1
+                                                    mass 1.000000
+                                                    centerOfMass [ 0.000000 0.000000 0.000000 ]
+                                                  }
+                                                }
+                                                HingeJoint {
+                                                  jointParameters HingeJointParameters {
+                                                    axis -0.977783 0.209619 -0.000000
+                                                    anchor 0.002790 0.031260 -0.114670
+                                                    dampingConstant 0.0
+                                                    staticFriction 0.0
+                                                  }
+                                                  device [
+                                                    RotationalMotor {
+                                                      name "j2s7s300_joint_finger_1"
+                                                      maxVelocity 1.0
+                                                      maxPosition 1.51
+                                                      maxTorque 2.0
+                                                    }
+                                                    PositionSensor {
+                                                      name "j2s7s300_joint_finger_1_sensor"
+                                                    }
+                                                  ]
+                                                  endPoint Solid {
+                                                    translation 0.002790 0.031260 -0.114670
+                                                    rotation -0.716550 -0.265771 0.644920 2.363281
+                                                    children [
+                                                      finger_proximal_0Mesh {
+                                                      }
+                                                      HingeJoint {
+                                                        jointParameters HingeJointParameters {
+                                                          axis 0.000000 0.000000 1.000000
+                                                          anchor 0.044000 -0.003000 0.000000
+                                                          dampingConstant 0.0
+                                                          staticFriction 0.0
+                                                        }
+                                                        device [
+                                                          RotationalMotor {
+                                                            name "j2s7s300_joint_finger_tip_1"
+                                                            maxVelocity 1.0
+                                                            maxPosition 2.0
+                                                            maxTorque 2.0
+                                                          }
+                                                          PositionSensor {
+                                                            name "j2s7s300_joint_finger_tip_1_sensor"
+                                                          }
+                                                        ]
+                                                        endPoint Solid {
+                                                          translation 0.044000 -0.003000 0.000000
+                                                          rotation 0.000000 1.000000 0.000000 0.000000
+                                                          children [
+                                                            finger_distal_0Mesh {
+                                                            }
+                                                          ]
+                                                          name "j2s7s300_link_finger_tip_1"
+                                                          boundingObject Transform {
+                                                            translation 0.017082 -0.004542 0.000000
+                                                            children [
+                                                              Box {
+                                                                size 0.053161 0.020083 0.022500
+                                                              }
+                                                            ]
+                                                          }
+                                                          physics Physics {
+                                                            density -1
+                                                            mass 0.010000
+                                                            centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                    name "j2s7s300_link_finger_1"
+                                                    boundingObject Transform {
+                                                      translation 0.021629 -0.008022 0.000000
+                                                      children [
+                                                        Box {
+                                                          size 0.057946 0.026489 0.022942
+                                                        }
+                                                      ]
+                                                    }
+                                                    physics Physics {
+                                                      density -1
+                                                      mass 0.010000
+                                                      centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                    }
+                                                  }
+                                                }
+                                                HingeJoint {
+                                                  jointParameters HingeJointParameters {
+                                                    axis 0.983000 0.183608 -0.000000
+                                                    anchor 0.022260 -0.027070 -0.114820
+                                                    dampingConstant 0.0
+                                                    staticFriction 0.0
+                                                  }
+                                                  device [
+                                                    RotationalMotor {
+                                                      name "j2s7s300_joint_finger_2"
+                                                      maxVelocity 1.0
+                                                      maxPosition 1.51
+                                                      maxTorque 2.0
+                                                    }
+                                                    PositionSensor {
+                                                      name "j2s7s300_joint_finger_2_sensor"
+                                                    }
+                                                  ]
+                                                  endPoint Solid {
+                                                    translation 0.022260 -0.027070 -0.114820
+                                                    rotation -0.494245 0.800563 -0.338852 1.700878
+                                                    children [
+                                                      finger_proximal_0Mesh {
+                                                      }
+                                                      HingeJoint {
+                                                        jointParameters HingeJointParameters {
+                                                          axis 0.000000 0.000000 1.000000
+                                                          anchor 0.044000 -0.003000 0.000000
+                                                          dampingConstant 0.0
+                                                          staticFriction 0.0
+                                                        }
+                                                        device [
+                                                          RotationalMotor {
+                                                            name "j2s7s300_joint_finger_tip_2"
+                                                            maxVelocity 1.0
+                                                            maxPosition 2.0
+                                                            maxTorque 2.0
+                                                          }
+                                                          PositionSensor {
+                                                            name "j2s7s300_joint_finger_tip_2_sensor"
+                                                          }
+                                                        ]
+                                                        endPoint Solid {
+                                                          translation 0.044000 -0.003000 0.000000
+                                                          rotation 0.000000 1.000000 0.000000 0.000000
+                                                          children [
+                                                            finger_distal_0Mesh {
+                                                            }
+                                                          ]
+                                                          name "j2s7s300_link_finger_tip_2"
+                                                          boundingObject Transform {
+                                                            translation 0.017082 -0.004542 0.000000
+                                                            children [
+                                                              Box {
+                                                                size 0.053161 0.020083 0.022500
+                                                              }
+                                                            ]
+                                                          }
+                                                          physics Physics {
+                                                            density -1
+                                                            mass 0.010000
+                                                            centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                    name "j2s7s300_link_finger_2"
+                                                    boundingObject Transform {
+                                                      translation 0.021629 -0.008022 0.000000
+                                                      children [
+                                                        Box {
+                                                          size 0.057946 0.026489 0.022942
+                                                        }
+                                                      ]
+                                                    }
+                                                    physics Physics {
+                                                      density -1
+                                                      mass 0.010000
+                                                      centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                    }
+                                                  }
+                                                }
+                                                HingeJoint {
+                                                  jointParameters HingeJointParameters {
+                                                    axis 0.983000 -0.183608 -0.000000
+                                                    anchor -0.022260 -0.027070 -0.114820
+                                                    dampingConstant 0.0
+                                                    staticFriction 0.0
+                                                  }
+                                                  device [
+                                                    RotationalMotor {
+                                                      name "j2s7s300_joint_finger_3"
+                                                      maxVelocity 1.0
+                                                      maxPosition 1.51
+                                                      maxTorque 2.0
+                                                    }
+                                                    PositionSensor {
+                                                      name "j2s7s300_joint_finger_3_sensor"
+                                                    }
+                                                  ]
+                                                  endPoint Solid {
+                                                    translation -0.022260 -0.027070 -0.114820
+                                                    rotation -0.318842 0.825870 -0.465058 1.850389
+                                                    children [
+                                                      finger_proximal_0Mesh {
+                                                      }
+                                                      HingeJoint {
+                                                        jointParameters HingeJointParameters {
+                                                          axis 0.000000 0.000000 1.000000
+                                                          anchor 0.044000 -0.003000 0.000000
+                                                          dampingConstant 0.0
+                                                          staticFriction 0.0
+                                                        }
+                                                        device [
+                                                          RotationalMotor {
+                                                            name "j2s7s300_joint_finger_tip_3"
+                                                            maxVelocity 1.0
+                                                            maxPosition 2.0
+                                                            maxTorque 2.0
+                                                          }
+                                                          PositionSensor {
+                                                            name "j2s7s300_joint_finger_tip_3_sensor"
+                                                          }
+                                                        ]
+                                                        endPoint Solid {
+                                                          translation 0.044000 -0.003000 0.000000
+                                                          rotation 0.000000 1.000000 0.000000 0.000000
+                                                          children [
+                                                            finger_distal_0Mesh {
+                                                            }
+                                                          ]
+                                                          name "j2s7s300_link_finger_tip_3"
+                                                          boundingObject Transform {
+                                                            translation 0.017082 -0.004542 0.000000
+                                                            children [
+                                                              Box {
+                                                                size 0.053161 0.020083 0.022500
+                                                              }
+                                                            ]
+                                                          }
+                                                          physics Physics {
+                                                            density -1
+                                                            mass 0.010000
+                                                            centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                          }
+                                                        }
+                                                      }
+                                                    ]
+                                                    name "j2s7s300_link_finger_3"
+                                                    boundingObject Transform {
+                                                      translation 0.021629 -0.008022 0.000000
+                                                      children [
+                                                        Box {
+                                                          size 0.057946 0.026489 0.022942
+                                                        }
+                                                      ]
+                                                    }
+                                                    physics Physics {
+                                                      density -1
+                                                      mass 0.010000
+                                                      centerOfMass [ 0.022000 0.000000 0.000000 ]
+                                                    }
+                                                  }
+                                                }
+                                              ]
+                                              name "j2s7s300_link_7"
+                                              boundingObject Transform {
+                                                translation 0.000000 0.001709 -0.060503
+                                                children [
+                                                  Box {
+                                                    size 0.092724 0.105092 0.121007
+                                                  }
+                                                ]
+                                              }
+                                              physics Physics {
+                                                density -1
+                                                mass 0.990000
+                                                centerOfMass [ 0.000000 0.000000 -0.060000 ]
+                                              }
+                                            }
+                                          }
+                                        ]
+                                        name "j2s7s300_link_6"
+                                        boundingObject Transform {
+                                          translation 0.000000 0.036062 -0.007855
+                                          children [
+                                            Box {
+                                              size 0.063000 0.135125 0.079117
+                                            }
+                                          ]
+                                        }
+                                        physics Physics {
+                                          density -1
+                                          mass 0.463000
+                                          centerOfMass [ 0.000000 0.049721 -0.002856 ]
+                                        }
+                                      }
+                                    }
+                                  ]
+                                  name "j2s7s300_link_5"
+                                  boundingObject Transform {
+                                    translation 0.000000 0.007980 -0.067562
+                                    children [
+                                      Box {
+                                        size 0.063000 0.079117 0.135125
+                                      }
+                                    ]
+                                  }
+                                  physics Physics {
+                                    density -1
+                                    mass 0.463000
+                                    centerOfMass [ 0.000000 0.002885 -0.054193 ]
+                                  }
+                                }
+                              }
+                            ]
+                            name "j2s7s300_link_4"
+                            boundingObject Transform {
+                              translation 0.000000 0.083000 -0.011500
+                              children [
+                                Box {
+                                  size 0.082500 0.248500 0.063000
+                                }
+                              ]
+                            }
+                            physics Physics {
+                              density -1
+                              mass 0.676300
+                              centerOfMass [ 0.000000 0.081000 -0.008600 ]
+                            }
+                          }
+                        }
+                      ]
+                      name "j2s7s300_link_3"
+                      boundingObject Transform {
+                        translation 0.000000 0.001182 -0.123062
+                        children [
+                          Box {
+                            size 0.082500 0.084864 0.246125
+                          }
+                        ]
+                      }
+                      physics Physics {
+                        density -1
+                        mass 0.844700
+                        centerOfMass [ 0.000000 0.000000 -0.102245 ]
+                      }
+                    }
+                  }
+                ]
+                name "j2s7s300_link_2"
+                boundingObject Transform {
+                  translation 0.000000 -0.081813 -0.001057
+                  children [
+                    Box {
+                      size 0.082500 0.246125 0.084864
+                    }
+                  ]
+                }
+                physics Physics {
+                  density -1
+                  mass 0.844700
+                  centerOfMass [ 0.000000 -0.103563 0.000000 ]
+                }
+              }
+            }
+          ]
+          name "j2s7s300_link_1"
+          boundingObject Transform {
+            translation 0.000000 -0.000032 -0.079938
+            children [
+              Box {
+                size 0.082500 0.082564 0.159875
+              }
+            ]
+          }
+          physics Physics {
+            density -1
+            mass 0.747700
+            centerOfMass [ 0.000000 -0.002000 -0.060500 ]
+          }
+        }
+      }
+    ]
+    name "j2s7s300_link_base"
+    boundingObject Transform {
+      translation 0.000000 0.000000 0.078375
+      children [
+        Box {
+          size 0.082500 0.082500 0.156750
+        }
+      ]
+    }
+    %{ if fields.staticBase.value == false then}%
+    physics Physics {
+      density -1
+      mass 0.467840
+      centerOfMass [ 0.000000 0.000000 0.125500 ]
+    }
+    %{ end }%
+    controller IS controller
+    controllerArgs IS controllerArgs
+    supervisor IS supervisor
+    synchronization IS synchronization
+    selfCollision IS selfCollision
+  }
+}

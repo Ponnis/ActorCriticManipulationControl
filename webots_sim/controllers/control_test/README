@@ -1,0 +1,14 @@
+robot parameters file
+---------------------
+- all r (alpha) value are in mm!
+- the end has another joint!
+- it is as defined in the file
+- an end-effector can be attached there 
+	==> then you can define rotation as changing last x and y axis!
+
+#testlinija
+#testlinija
+#testlinija
+#testlinija
+#testlinija
+#testlinija
