@@ -1,0 +1,1 @@
+from inverse_kinematics_gymified.envs.InverseKinematics import InverseKinematicsEnv

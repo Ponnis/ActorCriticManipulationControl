@@ -1,0 +1,8 @@
+README.md
+setup.py
+inverse_kinematics_gymified/__init__.py
+inverse_kinematics_gymified.egg-info/PKG-INFO
+inverse_kinematics_gymified.egg-info/SOURCES.txt
+inverse_kinematics_gymified.egg-info/dependency_links.txt
+inverse_kinematics_gymified.egg-info/requires.txt
+inverse_kinematics_gymified.egg-info/top_level.txt

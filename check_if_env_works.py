@@ -1,8 +1,9 @@
 import numpy as np
 import gym
-import gym_custom_fetch
+import inverse_kinematics_gymified
 
-env = gym.make('custom_fetch-v0')
+#env = gym.make('custom_fetch-v0')
+env = gym.make('inverse_kinematics-v0')
 #env = gym.make('FetchPickAndPlace-v1')
 env.render()
 obs = env.reset()
@@ -12,7 +13,9 @@ print(env.action_space)
 def policy(observation, desired_goal):
     # Here you would implement your smarter policy. In this case,
     # we just sample random actions.
-    return env.action_space.sample()
+
+    #return env.action_space.sample()
+    return np.ones(6)
 
 for i in range(20000):
     while not done:
