@@ -87,10 +87,11 @@ class InverseKinematicsEnv(gym.Env):
 
         self.action_space = Box(low=np.array([-1.0] * self.robot.ndof, dtype=np.float32),  \
                                 high=np.array([1.0] * self.robot.ndof, dtype=np.float32), dtype=np.float32)
-       
+
         # TODO enable setting the other one with greater ease
         self.reward_type = 'dense'
         self.episode_score = 0
+        self.drawingInited = False
 
 
     def compute_reward(self, achieved_goal, goal, info):
@@ -195,10 +196,23 @@ class InverseKinematicsEnv(gym.Env):
 
 
     def render(self, mode='human', width=500, height=500):
-        fig = plt.figure()
-        ax = p3.Axes3D(fig)
-        color_link = 'blue'
+        if self.drawingInited == False:
+            plt.ion()
+            self.fig = plt.figure()
+            #self.ax = self.fig.add_subplot(111, projection='3d')
+            self.ax = self.fig.add_subplot(111, projection='3d')
+            # these are for axes scaling which does not happen automatically
+            self.ax.plot(np.array([0]), np.array([0]), np.array([1.5]), c='b')
+            self.ax.plot(np.array([0]), np.array([0]), np.array([-1.5]), c='b')
+            plt.xlim([-1.5,1.5])
+            plt.ylim([-0.5,1.5])
+            color_link = 'black'
+            self.robot.initDrawing(self.ax, color_link)
+            self.drawingInited = True
+        self.robot.drawStateAnim()
+        self.ax.set_title(str(self.n_of_tries_for_point) + 'th iteration toward goal')
+        drawPoint(self.ax, self.goal, 'red')
+        self.fig.canvas.draw()
+        self.fig.canvas.flush_events()
 
-        self.robot.drawState(ax, color_link)
-        plt.show()
         #return super(FetchEnv, self).render(mode, width, height)

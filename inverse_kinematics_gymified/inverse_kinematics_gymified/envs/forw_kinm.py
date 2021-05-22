@@ -9,6 +9,7 @@ import scipy.linalg
 #from drawing import *
 from inverse_kinematics_gymified.envs.joint_as_hom_mat import *
 from inverse_kinematics_gymified.envs.drawing import *
+from inverse_kinematics_gymified.envs.drawing_for_anim import *
 
 """
 The Robot_raw class is a collection of joints which
@@ -54,7 +55,7 @@ notes on code:
 # and sensors=[list_of_sensors] 
 class Robot_raw:
     #def __init__(self, clamp):
-    def __init__(self, **kwargs):
+    def __init__(self, ax=None, **kwargs):
         try:
             self.motors = kwargs["motors"]
             self.sensors = kwargs["sensors"]
@@ -70,11 +71,16 @@ class Robot_raw:
                 self.sim = 0
                 self.robot_name = "no_sim"
             pass
+        self.mode = 'training'
+        #self.mode = 'eval'
         self.clamp = 0
         self.joints = []
         # TODO FIX READING FILES 
         if self.robot_name == "no_sim":
-            fil = open('/home/gospodar/chalmers/ADL/project_resources/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            #fil = open('inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            #fil = open('envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            #fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            fil = open('/home/gospodar/chalmers/ADL/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             print("i'm using: testing_dh_parameters (which are UR10e params)")
         if self.robot_name == "UR10e":
             fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
@@ -105,27 +111,46 @@ class Robot_raw:
         self.jacobian = 0
         self.calcJacobian()
 
-# drawing
-#        self.anim_data = []
-#        self.lines = []
+
+# below are some utility functions for drawing
+    def initDrawing(self, ax, color_link):
         #initialize the plot for each line in order to animate 'em
         # each joint equates to four lines: 3 for orientation and 1 for the link
         # and each line has its x,y and z coordinate
-        # thus 1 joint is: [x_hat, y_hat, z_hat, p] = [[x_hat1_x, x_hat_y, x_hat_z], [...]
+        # thus 1 joint is: [x_hat, y_hat, z_hat, p] 
+        # and lines are a list of all of those
+        self.ax = ax
+        self.color_link = color_link
+        self.lines = []
+        avg_link_lenth = 0
         for j in range(self.ndof):
             x_hat = self.joints[j].HomMat[0:3,0]
             y_hat = self.joints[j].HomMat[0:3,1]
             z_hat = self.joints[j].HomMat[0:3,2]
             p = self.joints[j].HomMat[0:3,3]
-# drawing
-#            self.anim_data += [[x_hat, y_hat, z_hat, p]]
-#            line_x, = plt.plot([],[]) 
-#            line_y, = plt.plot([],[])
-#            line_z, = plt.plot([],[])
-#            line_p, = plt.plot([],[], 'g')
-#            self.lines += [[line_x, line_y, line_z, line_p]]
 
-# needed only for drawing, and even that is optional (remains to be seen)
+            line_x, = self.ax.plot(np.array([]),np.array([]),np.array([]), 'r') 
+            line_y, = self.ax.plot(np.array([]),np.array([]),np.array([]), 'g')
+            line_z, = self.ax.plot(np.array([]),np.array([]),np.array([]), 'b')
+            line_p, = self.ax.plot(np.array([]),np.array([]),np.array([]), self.color_link)
+
+            self.lines += [[line_x, line_y, line_z, line_p]]
+            avg_link_lenth += self.joints[j].d + self.joints[j].r
+
+        self.avg_link_lenth = avg_link_lenth / self.ndof
+
+
+# NOTE switched from ax as argument to self.ax
+    def drawStateAnim(self):
+        toBase = [np.array([[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]])]
+        drawOrientation(self.ax, toBase[-1][0:3,0:3], np.zeros((3,)), self.avg_link_lenth * 2)
+        for j in range(len(self.joints)):
+            toBase.append(toBase[-1] @ self.joints[j].HomMat)
+            drawOrientationAnim(self.ax, toBase[-1][0:3,0:3], self.lines[j][:-1], toBase[-1][0:3,3], self.avg_link_lenth)
+            drawVectorAnim(self.ax, -1* ( toBase[-2][0:3,3] - toBase[-1][0:3,3] ), self.lines[j][-1], toBase[-2][0:3,3],self.color_link)
+
+
+# needed only for drawing, and even that is optional 
     def saveConfToFile(self):
         fil = open('robot_parameters', 'r')
         params = fil.read().split('\n')
@@ -196,6 +221,7 @@ class Robot_raw:
     # just figure out the shape of the tensor and it's all clear after that
     # formulae straight from GAMLTT, last page, 66-68
 
+#        if self.mode == 'eval':
         mjac = []
         mjac_tri = []
         # this first column is here so that we can stack in the for loop, it's removed later
@@ -329,13 +355,13 @@ class Robot_raw:
 
             
 
-    def drawState(self, ax, color_link):
+    def drawState(self):
         toBase = [np.array([[1,0,0,0], [0,1,0,0], [0,0,1,0], [0,0,0,1]])]
-        drawOrientation(ax, toBase[-1][0:3,0:3], np.zeros((3,)))
+        drawOrientation(self.ax, toBase[-1][0:3,0:3], np.zeros((3,)))
         for j in range(self.ndof):
             toBase.append(toBase[-1] @ self.joints[j].HomMat)
-            drawOrientation(ax, toBase[-1][0:3,0:3], toBase[-1][0:3,3])
-            drawVector(ax, -1* ( toBase[-2][0:3,3] - toBase[-1][0:3,3] ), toBase[-2][0:3,3],color_link)
+            drawOrientation(self.ax, toBase[-1][0:3,0:3], toBase[-1][0:3,3])
+            drawVector(self.ax, -1* ( toBase[-2][0:3,3] - toBase[-1][0:3,3] ), toBase[-2][0:3,3],self.color_link)
 
 
     def updateJointsAndJacobian(self):
