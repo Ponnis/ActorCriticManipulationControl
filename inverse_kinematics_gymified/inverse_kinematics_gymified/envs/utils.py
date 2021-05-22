@@ -2,8 +2,8 @@ import numpy as np
 
 
 def error_test(p_e, target):
-    e = abs(target - p_e)
-    if e[0] < 0.001 and e[1] < 0.001 and e[2] < 0.001:
+    e = np.abs(target - p_e)
+    if e[0] < 0.002 and e[1] < 0.002 and e[2] < 0.002:
         return True
     else:
         return False

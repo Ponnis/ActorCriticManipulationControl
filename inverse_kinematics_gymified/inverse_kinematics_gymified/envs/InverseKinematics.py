@@ -46,7 +46,7 @@ class InverseKinematicsEnv(gym.Env):
         print('env created')
         # TODO write a convenience dh_parameter loading function
         self.robot = Robot_raw(robot_name="no_sim")
-        self.damping = 16
+        self.damping = 5
         self.error_vec = None
         # number of timesteps allowed
         self.max_tries = 300
@@ -98,7 +98,7 @@ class InverseKinematicsEnv(gym.Env):
         # Compute distance between goal and the achieved goal.
         if self.reward_type == 'sparse':
             if error_test(self.robot.p_e, self.goal):
-                return np.float32(0.0)
+                return np.float32(-1.0)
             else:
                 return np.float32(1.0)
         if self.reward_type == 'dense':
@@ -141,6 +141,8 @@ class InverseKinematicsEnv(gym.Env):
     def reset(self):
         # TODO: initialize robot joints state to a random (but valid (in joint range)) initial state
         self.episode_score = 0
+        self.n_of_points_done += 1
+        self.n_of_tries_for_point = 0
 
         # generate new point
         self.goal = np.array([random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70)])
@@ -196,6 +198,11 @@ class InverseKinematicsEnv(gym.Env):
 
 
     def render(self, mode='human', width=500, height=500):
+        try:
+            self.drawingInited == False
+        except AttributeError:
+            self.drawingInited = False
+
         if self.drawingInited == False:
             plt.ion()
             self.fig = plt.figure()

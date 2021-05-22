@@ -12,7 +12,6 @@ inverse_kinematics_gymified/envs/drawing.py
 inverse_kinematics_gymified/envs/drawing_for_anim.py
 inverse_kinematics_gymified/envs/follow_curve.py
 inverse_kinematics_gymified/envs/forw_kinm.py
-inverse_kinematics_gymified/envs/forw_kinm_old_with_drawing.py
 inverse_kinematics_gymified/envs/ik_control.py
 inverse_kinematics_gymified/envs/inv_kinm.py
 inverse_kinematics_gymified/envs/joint_as_hom_mat.py
