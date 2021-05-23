@@ -46,7 +46,7 @@ class InverseKinematicsEnv(gym.Env):
         print('env created')
         # TODO write a convenience dh_parameter loading function
         self.robot = Robot_raw(robot_name="no_sim")
-        self.damping = 5
+        self.damping = 16
         self.error_vec = None
         # number of timesteps allowed
         self.max_tries = 300
@@ -66,10 +66,8 @@ class InverseKinematicsEnv(gym.Env):
         # idk what this relative path does
         # also make sure to not override stuff
 #        self.measurements_file = open("./data/measurementsXYZ", "w")
-        observation_space_low = np.array([-np.inf, -np.inf, -np.inf])
-        np.append(observation_space_low, [-2 * 3.14] * self.robot.ndof)
-        observation_space_high = np.array([np.inf, np.inf, np.inf])
-        np.append(observation_space_high, [2 * 3.14] * self.robot.ndof)
+        observation_space_low = np.array([-np.inf] * (3 + self.robot.ndof), dtype=np.float32)
+        observation_space_high = np.array([np.inf] * (3 + self.robot.ndof), dtype=np.float32)
 
 
 #        self.observation_space = Box(low=observation_space_low, \
@@ -187,7 +185,7 @@ class InverseKinematicsEnv(gym.Env):
             thetas.append(joint.theta)
         thetas = np.array(thetas , dtype=np.float32)
         obs = self.robot.p_e.copy()
-        np.append(obs, thetas)
+        obs = np.append(obs, thetas)
 
         return {
             'observation': obs,
