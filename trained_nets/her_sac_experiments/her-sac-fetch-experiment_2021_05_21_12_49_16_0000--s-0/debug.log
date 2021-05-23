@@ -1,0 +1,40 @@
+2021-05-21 12:49:19.422879 CEST | [her-sac-fetch-experiment_2021_05_21_12_20_57_0000--s-0] [her-sac-fetch-experiment_2021_05_21_12_49_16_0000--s-0] Variant:
+2021-05-21 12:49:19.423573 CEST | [her-sac-fetch-experiment_2021_05_21_12_20_57_0000--s-0] [her-sac-fetch-experiment_2021_05_21_12_49_16_0000--s-0] {
+  "algorithm": "HER-SAC",
+  "version": "normal",
+  "algo_kwargs": {
+    "batch_size": 128,
+    "num_epochs": 100,
+    "num_eval_steps_per_epoch": 5000,
+    "num_expl_steps_per_train_loop": 1000,
+    "num_trains_per_train_loop": 1000,
+    "min_num_steps_before_training": 1000,
+    "max_path_length": 50
+  },
+  "sac_trainer_kwargs": {
+    "discount": 0.99,
+    "soft_target_tau": 0.005,
+    "target_update_period": 1,
+    "policy_lr": 0.0003,
+    "qf_lr": 0.0003,
+    "reward_scale": 1,
+    "use_automatic_entropy_tuning": true
+  },
+  "replay_buffer_kwargs": {
+    "max_size": 1000000,
+    "fraction_goals_rollout_goals": 0.2,
+    "fraction_goals_env_goals": 0
+  },
+  "qf_kwargs": {
+    "hidden_sizes": [
+      400,
+      300
+    ]
+  },
+  "policy_kwargs": {
+    "hidden_sizes": [
+      400,
+      300
+    ]
+  }
+}
