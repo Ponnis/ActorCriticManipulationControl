@@ -1,1 +1,2 @@
 from inverse_kinematics_gymified.envs.InverseKinematics import InverseKinematicsEnv
+from inverse_kinematics_gymified.envs.InverseKinematicsWithManipRewards import InverseKinematicsWithManipRewardsEnv

@@ -4,3 +4,9 @@ register(
     id='inverse_kinematics-v0',
     entry_point='inverse_kinematics_gymified.envs:InverseKinematicsEnv',
 )
+
+
+register(
+    id='inverse_kinematics-with-manip-rewards-v0',
+    entry_point='inverse_kinematics_gymified.envs:InverseKinematicsWithManipRewardsEnv',
+)

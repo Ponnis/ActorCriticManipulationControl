@@ -8,7 +8,7 @@ setup(name='inverse_kinematics_gymified',
 #            if package.startswith('inverse_kinematics_gymified')],
         packages=find_packages(),
 
-        package_data={'inverse_kinematics_gymifiedi.envs': ['arms/*',
+        package_data={'inverse_kinematics_gymified.envs': ['arms/*',
                                                     'data/*']}
         )
 
