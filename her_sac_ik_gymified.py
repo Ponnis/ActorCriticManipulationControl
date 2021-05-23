@@ -14,12 +14,10 @@ from rlkit.torch.torch_rl_algorithm import TorchBatchRLAlgorithm
 
 def experiment(variant):
     # unwrap the TimeLimitEnv wrapper since we manually termiante after 50 steps
-    eval_env = gym.make('inverse_kinematics-with-manip-rewards-v0')
-#    eval_env = gym.make('inverse_kinematics-v0')
+    eval_env = gym.make('inverse_kinematics-v0')
 #    eval_env = gym.make('FetchPush-v1').env
 #    eval_env = gym.make('FetchReachDense-v1').env
-    expl_env = gym.make('inverse_kinematics-with-manip-rewards-v0')
-#    expl_env = gym.make('inverse_kinematics-v0')
+    expl_env = gym.make('inverse_kinematics-v0')
     #expl_env = gym.make('FetchPush-v1').env
 #    expl_env = gym.make('FetchReachDense-v1').env
 
@@ -104,8 +102,8 @@ if __name__ == "__main__":
         version='normal',
         algo_kwargs=dict(
             batch_size=128,
-            num_epochs=2000,
-            num_eval_steps_per_epoch=1000,
+            num_epochs=1000,
+            num_eval_steps_per_epoch=5000,
             num_expl_steps_per_train_loop=1000,
             num_trains_per_train_loop=1000,
             min_num_steps_before_training=1000,
@@ -132,6 +130,5 @@ if __name__ == "__main__":
             hidden_sizes=[400, 300],
         ),
     )
-    ptu.set_gpu_mode(True)
-    setup_logger('her_sac_ik_gymified_with_manip_rewards_corrected', variant=variant)
+    setup_logger('her-sac-fetch-experiment', variant=variant)
     experiment(variant)
