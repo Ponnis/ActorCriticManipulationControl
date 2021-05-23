@@ -37,7 +37,7 @@ list of variables which need to exist and be correct:
 
 """
 
-class InverseKinematicsWithManipRewardsEnv(gym.Env):
+class InverseKinematicsWithManipRewardsNoJointObservationsEnv(gym.Env):
     metadata = {'render.modes': ['human']}
 
 # set damping (i.e. dt i.e. precision let's be real)
@@ -66,8 +66,10 @@ class InverseKinematicsWithManipRewardsEnv(gym.Env):
         # also make sure to not override stuff
 #        self.measurements_file = open("./data/measurementsXYZ", "w")
 
-        observation_space_low = np.array([-np.inf] * (3 + self.robot.ndof), dtype=np.float32)
-        observation_space_high = np.array([np.inf] * (3 + self.robot.ndof), dtype=np.float32)
+        #observation_space_low = np.array([-np.inf] * (3 + self.robot.ndof), dtype=np.float32)
+        #observation_space_high = np.array([np.inf] * (3 + self.robot.ndof), dtype=np.float32)
+        observation_space_low = np.array([-np.inf] * 3 , dtype=np.float32)
+        observation_space_high = np.array([np.inf] * 3 , dtype=np.float32)
 
 #        self.observation_space = Box(low=observation_space_low, \
 #                                    high=observation_space_high, dtype=np.float64)
@@ -183,12 +185,12 @@ class InverseKinematicsWithManipRewardsEnv(gym.Env):
 
 
     def _get_obs(self):
-        thetas = []
-        for joint in self.robot.joints:
-            thetas.append(joint.theta)
-        thetas = np.array(thetas , dtype=np.float32)
+        #thetas = []
+        #for joint in self.robot.joints:
+        #    thetas.append(joint.theta)
+        #thetas = np.array(thetas , dtype=np.float32)
         obs = self.robot.p_e.copy()
-        obs = np.append(obs, thetas)
+        #obs = np.append(obs, thetas)
 
         return {
             'observation': obs,

@@ -1,3 +1,3 @@
 #!/bin/bash
-cd gym_custom_fetch
+cd inverse_kinematics_gymified
 pip install -e .

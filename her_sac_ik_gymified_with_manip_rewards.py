@@ -105,8 +105,8 @@ if __name__ == "__main__":
         algo_kwargs=dict(
             batch_size=128,
             num_epochs=1000,
-            num_eval_steps_per_epoch=5000,
-            num_expl_steps_per_train_loop=1000,
+            num_eval_steps_per_epoch=300,
+            num_expl_steps_per_train_loop=300,
             num_trains_per_train_loop=1000,
             min_num_steps_before_training=1000,
             max_path_length=50,
@@ -132,5 +132,5 @@ if __name__ == "__main__":
             hidden_sizes=[400, 300],
         ),
     )
-    setup_logger('her_sac_ik_gymified_with_manip_rewards', variant=variant)
+    setup_logger('her_sac_ik_gymified_with_manip_rewards_corrected', variant=variant)
     experiment(variant)

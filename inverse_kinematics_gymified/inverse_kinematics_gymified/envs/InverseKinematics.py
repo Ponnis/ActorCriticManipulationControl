@@ -46,7 +46,7 @@ class InverseKinematicsEnv(gym.Env):
         print('env created')
         # TODO write a convenience dh_parameter loading function
         self.robot = Robot_raw(robot_name="no_sim")
-        self.damping = 16
+        self.damping = 5
         self.error_vec = None
         # number of timesteps allowed
         self.max_tries = 300
