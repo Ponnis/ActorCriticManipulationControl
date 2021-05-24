@@ -19,7 +19,7 @@ pathOfNetworksToTest = [
 data = torch.load(pathOfNetworksToTest[0])
 policy = data['evaluation/policy'] # policy is equal to agent in rollout
 env = gym.make('inverse_kinematics-with-manip-rewards-no-joint-observations-v0')
-env.render()
+#env.render()
 obs = env.reset()
 done = False
 
@@ -43,7 +43,8 @@ def policyClassical(robot, desired_goal, alg):
 
 
 results = {}
-algs = ['invKinm_Jac_T', 'invKinm_PseudoInv', 'invKinm_dampedSquares', 'invKinmQP', 'invKinmQPSingAvoidE_kI']
+#algs = ['invKinm_Jac_T', 'invKinm_PseudoInv', 'invKinm_dampedSquares', 'invKinmQP', 'invKinmQPSingAvoidE_kI']
+algs = ['invKinm_Jac_T', 'invKinm_PseudoInv', 'invKinm_dampedSquares']
 nExperiments = 100
 nSteps = 50
 
@@ -52,9 +53,10 @@ nSteps = 50
 for alg in algs:
     results[alg] = {'done': 0, 'rewards': 0}
     for experiment in range(nExperiments):
+        env.reset()
+        print(alg, experiment)
         for i in range(nSteps):
         #for i in range(1):
-            env.render()
             action = policyClassical(env.robot, obs['desired_goal'], alg)
             obs, reward, done, info = env.step(action)
 
@@ -69,7 +71,9 @@ for alg in algs:
 
 
 results['sac_her'] = {'done': 0, 'rewards': 0}
-for i in range(nExperiments):
+for experiment in range(nExperiments):
+    env.reset()
+    print('sac_her', experiment)
 
     rez = multitask_rollout(env, policy, max_path_length=nSteps, render=False,
             observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
@@ -81,7 +85,7 @@ for i in range(nExperiments):
 results['sac_her']['rewards'] = results['sac_her']['rewards'] / nExperiments 
 results['sac_her']['done'] = results['sac_her']['done'] / nExperiments 
 
-file = file('results_1', 'wb')
+file = open('results_1', 'wb')
 pickle.dump(results, file)
 file.close()
 
