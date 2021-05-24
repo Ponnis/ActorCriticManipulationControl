@@ -116,7 +116,8 @@ class Joint:
         if self.clamp == 1:
             self.theta = clampTheta(theta)
         else:
-            self.theta = theta
+            self.theta = theta % (2 * np.pi)
+        #    self.theta = theta 
         self.HomMat = createDHMat(self.d, self.theta, self.r, self.alpha)
 
     def rotate_with_MDH(self, theta, clamp):
@@ -124,7 +125,8 @@ class Joint:
         if self.clamp == 1:
             self.theta = clampTheta(theta)
         else:
-            self.theta = theta
+            self.theta = theta % (2 * np.pi)
+            #self.theta = theta
         self.HomMat = createModifiedDHMat(self.d, self.theta, self.r, self.alpha)
 
 
