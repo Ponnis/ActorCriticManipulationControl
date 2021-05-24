@@ -80,7 +80,8 @@ class Robot_raw:
             #fil = open('inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             #fil = open('envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             #fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
-            fil = open('/chalmers/users/guberina/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            #fil = open('/chalmers/users/guberina/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            fil = open('/home/gospodar/chalmers/ADL/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             print("i'm using: testing_dh_parameters (which are UR10e params)")
         if self.robot_name == "UR10e":
             fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
