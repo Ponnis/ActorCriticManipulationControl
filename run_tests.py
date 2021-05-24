@@ -1,4 +1,5 @@
 import numpy as np
+import pickle
 import gym
 import inverse_kinematics_gymified
 import inverse_kinematics_gymified.envs.forw_kinm
@@ -23,32 +24,64 @@ obs = env.reset()
 done = False
 
 
-def policyClassical(robot, desired_goal):
-#    del_thet = invKinmQPSingAvoidE_kI(robot, desired_goal)
-    del_thet = invKinm_Jac_T(robot, desired_goal)
-#    del_thet = invKinm_PseudoInv(robot, desired_goal)
-#    del_thet = invKinm_dampedSquares(robot, desired_goal)
-#    del_thet = invKinmQP(robot, desired_goal)
-#    del_thet = invKinmQPSingAvoidE_kI(robot, desired_goal)
+def policyClassical(robot, desired_goal, alg):
+
+    if alg == 'invKinm_Jac_T':
+        del_thet = invKinm_Jac_T(robot, desired_goal)
+    if alg == 'invKinm_PseudoInv':
+        del_thet = invKinm_PseudoInv(robot, desired_goal)
+    if alg == 'invKinm_dampedSquares':
+        del_thet = invKinm_dampedSquares(robot, desired_goal)
+    if alg == 'invKinmQP':
+        del_thet = invKinmQP(robot, desired_goal)
+    if alg == 'invKinmQPSingAvoidE_kI':
+        del_thet = invKinmQPSingAvoidE_kI(robot, desired_goal)
 #    del_thet = invKinmQPSingAvoidE_kM(robot, desired_goal)
 #    del_thet = invKinmQPSingAvoidManipMax(robot, desired_goal)
 
     return del_thet
 
 
-rewards = []
-#while not done:
-for experiment in range(1):
-    #for i in range(100):
-    for i in range(1):
-        env.render()
-#        action = policyClassical(env.robot, obs['desired_goal'])
-#        obs, reward, done, info = env.step(action)
+results = {}
+algs = ['invKinm_Jac_T', 'invKinm_PseudoInv', 'invKinm_dampedSquares', 'invKinmQP', 'invKinmQPSingAvoidE_kI']
+nExperiments = 100
+nSteps = 50
 
-        rez = multitask_rollout(env, policy, max_path_length=100, render=True,
-                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
-        #print(rez['rewards'])
-#        rewards.append([reward])
-#        print(info)
-#print('total reward', np.sum(np.array(rewards))) 
-print('total reward', np.sum(np.array(rez['rewards'])))
+
+
+for alg in algs:
+    results[alg] = {'done': 0, 'rewards': 0}
+    for experiment in range(nExperiments):
+        for i in range(nSteps):
+        #for i in range(1):
+            env.render()
+            action = policyClassical(env.robot, obs['desired_goal'], alg)
+            obs, reward, done, info = env.step(action)
+
+    #        rez = multitask_rollout(env, policy, max_path_length=100, render=True,
+    #                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+            #print(rez['rewards'])
+            results[alg]['rewards'] += reward
+        results[alg]['done'] += info['is_success']
+
+    results[alg]['rewards'] = results[alg]['rewards'] / (nExperiments * nSteps)
+    results[alg]['done'] = results[alg]['done'] / (nExperiments * nSteps)
+
+
+results['sac_her'] = {'done': 0, 'rewards': 0}
+for i in range(nExperiments):
+
+    rez = multitask_rollout(env, policy, max_path_length=nSteps, render=False,
+            observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+    #print(rez['rewards'])
+    results['sac_her']['rewards'] += sum(rez['rewards'])
+
+    results['sac_her']['done'] += rez['env_infos'][-1]['is_success']
+
+results['sac_her']['rewards'] = results['sac_her']['rewards'] / nExperiments 
+results['sac_her']['done'] = results['sac_her']['done'] / nExperiments 
+
+file = file('results_1', 'wb')
+pickle.dump(results, file)
+file.close()
+
