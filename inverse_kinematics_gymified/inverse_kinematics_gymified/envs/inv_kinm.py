@@ -153,6 +153,7 @@ def invKinmQP(r, t):
  
  
     del_thet = solve_qp(P, q, G, h, A, b, lb, ub, solver="ecos")
+    #del_thet = solve_qp(P, q, G, h, A, b, lb, ub, solver="quadprog")
  
     return del_thet
 
