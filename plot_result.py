@@ -2,14 +2,14 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 
-file = open('results_4', 'rb')
+file = open('results_5', 'rb')
 results = pickle.load(file)
 file.close()
 
 nExperiments = results['meta']['nExperiments']
 nSteps = results['meta']['nSteps']
 
-algs = results.keys()
+algs = list(results.keys())[1:]
 returns = []
 returns_stds = []
 successes = []
@@ -59,7 +59,7 @@ for alg in algs:
 
 
 # returns
-plt.bar(algs, returns, yerror=returns_stds, ecolor='black')
+plt.bar(algs, returns, yerr=returns_stds, ecolor='black', capsize=10)
 plt.title('Average returns')
 plt.ylabel('return')
 plt.show()
@@ -73,20 +73,19 @@ plt.show()
 #plt.savefig('avg_done.png')
 
 # final distance
-plt.bar(algs, final_dists, yerror=final_dists_stds, ecolor='black')
+plt.bar(algs, final_dists, yerr=final_dists_stds, ecolor='black', capsize=10)
 plt.title('Average final distance to goal')
 plt.ylabel('distance to goal in meters')
 plt.show()
 
-################### TODO TODO TODO ########################
 # smallest eigenvalue
-plt.bar(algs, smallest_eigenvals, yerror=smallest_eigenvals_stds, ecolor='black')
+plt.bar(algs, smallest_eigenvals, yerr=smallest_eigenvals_stds, ecolor='black', capsize=10)
 plt.title('Average smallest eigenvalue of the manipulability ellipsoid')
 plt.ylabel('smallest eigenvalue')
 plt.show()
 
 # manipulability index
-plt.bar(algs, manip_indexes, yerror=manip_indexes_stds, ecolor='black')
+plt.bar(algs, manip_indexes, yerr=manip_indexes_stds, ecolor='black', capsize=10)
 plt.title('Average manipulability index')
 plt.ylabel('manipulability index')
 plt.show()

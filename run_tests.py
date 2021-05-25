@@ -5,6 +5,7 @@ import inverse_kinematics_gymified
 import inverse_kinematics_gymified.envs.forw_kinm
 from inverse_kinematics_gymified.envs.inv_kinm import *
 import torch
+import copy
 
 ####################################################################
 # adjusted rlkit commands 
@@ -137,7 +138,8 @@ def rollout(
 ####################################################################
 
 pathOfNetworksToTest = [
-        "./trained_nets/her_sac_ik_gymified_with_manip_rewards_final_5_2021_05_24_22_53_24_0000--s-0/params.pkl"]
+        "./trained_nets/her_sac_ik_gymified_with_manip_rewards_final_5_2021_05_24_22_53_24_0000--s-0/params.pkl",
+        "./trained_nets/her-sac-no-manip-rewards_2021_05_25_10_55_18_0000--s-0/params.pkl"]
 
 # init env
 #env = gym.make('custom_fetch-v0')
@@ -145,8 +147,10 @@ pathOfNetworksToTest = [
 #env = gym.make('FetchPickAndPlace-v1')
 
 # init net
-data = torch.load(pathOfNetworksToTest[0])
-policy_trained_on_manip_rewards = data['evaluation/policy'] # policy is equal to agent in rollout
+data_manip_rewards = torch.load(pathOfNetworksToTest[0])
+data_no_manip_rewards = torch.load(pathOfNetworksToTest[1])
+policy_trained_on_manip_rewards = data_manip_rewards['evaluation/policy'] # policy is equal to agent in rollout
+policy_no_manip_rewards = data_no_manip_rewards['evaluation/policy'] # policy is equal to agent in rollout
 #env = gym.make('inverse_kinematics-with-manip-rewards-no-joint-observations-v0')
 env = gym.make('inverse_kinematics-with-manip-rewards-v0')
 #env.render()
@@ -184,7 +188,7 @@ def policyClassical(robot, desired_goal, alg):
 results = {}
 #algs = ['invKinm_Jac_T', 'invKinm_PseudoInv', 'invKinm_dampedSquares', 'invKinmQP', 'invKinmQPSingAvoidE_kI']
 algs = ['transpose', 'pseudoinverse', 'damped squares', 'advanced QP']
-nExperiments = 50
+nExperiments = 5
 nSteps = 50
 
 results['meta'] = {'nExperiments': nExperiments, 'nSteps': nSteps}
@@ -251,6 +255,25 @@ for experiment in range(nExperiments):
 ####################################################################
 # run sac her with distance only rewards
 ####################################################################
+results['RL reward 2'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+                    'manip_indexes': []}
+
+for experiment in range(nExperiments):
+    env.reset()
+    print('RL reward 2', experiment)
+
+    rez = multitask_rollout(env, policy_no_manip_rewards, max_path_length=nSteps, 
+            render=False,
+            observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+    #print(rez['rewards'])
+    results['RL reward 2']['returns'].append(sum(rez['rewards']))
+    results['RL reward 2']['successes'] += rez['env_infos'][-1]['is_success']
+    results['RL reward 2']['final_distances'].append(
+                                            inverse_kinematics_gymified.envs.utils.goal_distance(
+                                            rez['observations'][-1]['achieved_goal'], 
+                                            rez['observations'][-1]['desired_goal']))
+    results['RL reward 2']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+    results['RL reward 2']['manip_indexes'].append(rez['manip_indexes'])
 
 
 
