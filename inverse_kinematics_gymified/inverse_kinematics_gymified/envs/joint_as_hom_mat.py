@@ -88,15 +88,19 @@ def clampTheta(theta):
 # and that coordinate system is defined via the D-H parameters
 class Joint:
     def __init__(self, d, theta, r, alpha, clamp):
-        self.d = d
         self.clamp = clamp
 # potential clamping for joint rotation limits
         if clamp == 1:
             self.theta = clampTheta(theta)
         else:
             self.theta = theta
+        self.d = d
         self.r = r
         self.alpha = alpha
+        self.ct = np.cos(theta)
+        self.st = np.sin(theta)
+        self.ca = np.cos(alpha)
+        self.sa = np.sin(alpha)
         self.HomMat = createDHMat(self.d, self.theta, self.r, self.alpha)
    
 
@@ -109,6 +113,13 @@ class Joint:
 # which then do the moving.
 # there you can only SENSE via SENSORS what the result of the rotation is
 # in this brach we essentially just do numerics!
+    def updateDHMat(self):
+        self.ct = np.cos(self.theta)
+        self.st = np.sin(self.theta)
+        self.HomMat = np.array([ [self.ct, -1 * self.st * self.ca, self.st * self.sa,      self.r * self.ct], \
+                           [self.st,      self.ct * self.ca, -1 * self.ct * self.sa, self.r * self.st], \
+                           [0,        self.sa,        self.ca,         self.d], \
+                           [0,        0,       0,           1]  ], dtype=np.float32)
 
 
     def rotate_numerically(self,theta, clamp):
@@ -118,7 +129,8 @@ class Joint:
         else:
             self.theta = theta % (2 * np.pi)
         #    self.theta = theta 
-        self.HomMat = createDHMat(self.d, self.theta, self.r, self.alpha)
+        #self.HomMat = createDHMat(self.d, self.theta, self.r, self.alpha)
+        self.updateDHMat()
 
     def rotate_with_MDH(self, theta, clamp):
 # potential clamping for joint rotation limits

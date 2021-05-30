@@ -106,12 +106,12 @@ class InverseKinematicsWithManipRewardsEnv(gym.Env):
             # idk if this is the right way to combine it but let's try
             reward = -1 * distance + manipulability_index + smallest_ellipsoid_eigenvalue
             # add a lil extra if it's close
-            if distance < 0.01:
-                reward = reward + 1.5
-            elif distance < 0.015:
-                reward = reward + 1.0
-            elif distance < 0.03:
+            if distance < 0.005:
+                reward = reward + 5
+            elif distance < 0.01:
                 reward = reward + 0.5
+            if error_test(self.robot.p_e, self.goal):
+                reward += 50
 
             return reward
             
@@ -151,15 +151,13 @@ class InverseKinematicsWithManipRewardsEnv(gym.Env):
         # initialize to a random starting state and check whether it makes any sense
         sensibility_check = False
         # TODO DELETE STUPID PRINT
-        i = 0
-        while not sensibility_check:
-            i+=1
-            thetas = []
-            for joint in self.robot.joints:
-                 thetas.append(6.28 * np.random.random() - 3.14)
-            self.robot.forwardKinmViaPositions(thetas)
-            if calculateManipulabilityIndex(self.robot) > 0.15:
-                sensibility_check = True
+        #while not sensibility_check:
+        thetas = []
+        for joint in self.robot.joints:
+             thetas.append(6.28 * np.random.random() - 3.14)
+        self.robot.forwardKinmViaPositions(thetas)
+        #    if calculateManipulabilityIndex(self.robot) > 0.15:
+        #        sensibility_check = True
 
         obs = self._get_obs()
         return obs

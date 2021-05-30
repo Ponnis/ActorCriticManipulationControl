@@ -24,7 +24,7 @@ def experiment(variant):
     #expl_env = gym.make('FetchPush-v1').env
 #    expl_env = gym.make('FetchReachDense-v1').env
 
-    data = torch.load('/home/gospodar/chalmers/ADL/project_resources/codes/rlkit/data/her-sac-ik-gymified-with-manip-rewards-corrected/her_sac_ik_gymified_with_manip_rewards_corrected_2021_05_23_17_32_38_0000--s-0/params.pkl')
+    data = torch.load('/home/gospodar/chalmers/ADL/her_sac_ik_gymified_with_manip_rewards_final_4_2021_05_24_16_46_22_0000--s-0/params.pkl')
 
     observation_key = 'observation'
     desired_goal_key = 'desired_goal'
@@ -88,11 +88,11 @@ if __name__ == "__main__":
         version='normal',
         algo_kwargs=dict(
             batch_size=128,
-            num_epochs=2000,
+            num_epochs=800,
             num_eval_steps_per_epoch=1000,
             num_expl_steps_per_train_loop=1000,
             num_trains_per_train_loop=1000,
-            min_num_steps_before_training=1000,
+            min_num_steps_before_training=10000,
             max_path_length=50,
         ),
         sac_trainer_kwargs=dict(
@@ -117,5 +117,5 @@ if __name__ == "__main__":
         ),
     )
     #ptu.set_gpu_mode(True)
-    setup_logger('her_sac_ik_gymified_with_manip_rewards_corrected', variant=variant)
+    setup_logger('her_sac_ik_gymified_with_manip_rewards_final5_cont', variant=variant)
     experiment(variant)

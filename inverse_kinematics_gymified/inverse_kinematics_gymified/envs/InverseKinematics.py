@@ -44,6 +44,7 @@ class InverseKinematicsEnv(gym.Env):
 # set damping (i.e. dt i.e. precision let's be real)
     def __init__(self, model_path=None, initial_qpos=None, n_actions=None, n_substeps=None ):
         print('env created')
+        self.chill_reset = False
         # TODO write a convenience dh_parameter loading function
         self.robot = Robot_raw(robot_name="no_sim")
         self.damping = 5
@@ -88,6 +89,7 @@ class InverseKinematicsEnv(gym.Env):
 
         # TODO enable setting the other one with greater ease
         self.reward_type = 'dense'
+        #self.reward_type = 'sparse'
         self.episode_score = 0
         self.drawingInited = False
 
@@ -95,21 +97,16 @@ class InverseKinematicsEnv(gym.Env):
     def compute_reward(self, achieved_goal, goal, info):
         # Compute distance between goal and the achieved goal.
         if self.reward_type == 'sparse':
-            if error_test(self.robot.p_e, self.goal):
+            if not error_test(self.robot.p_e, self.goal):
                 return np.float32(-1.0)
             else:
-                return np.float32(1.0)
+                return np.float32(10.0)
         if self.reward_type == 'dense':
             distance = goal_distance(achieved_goal, goal)
-            reward = -1 * distance
-            # add a lil extra if it's close
-            if distance < 0.01:
-                reward = reward + 1.5
-            elif distance < 0.015:
-                reward = reward + 1.0
-            elif distance < 0.03:
-                reward = reward + 0.5
-
+            if distance > 0.0001:
+                reward = 1 / distance
+            else:
+                reward = 10000
             return reward
             
 
@@ -138,6 +135,7 @@ class InverseKinematicsEnv(gym.Env):
 
     def reset(self):
         # TODO: initialize robot joints state to a random (but valid (in joint range)) initial state
+        #       when using joint clamping
         self.episode_score = 0
         self.n_of_points_done += 1
         self.n_of_tries_for_point = 0
@@ -146,17 +144,19 @@ class InverseKinematicsEnv(gym.Env):
         self.goal = np.array([random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70)])
         
         # initialize to a random starting state and check whether it makes any sense
-        sensibility_check = False
-        # TODO DELETE STUPID PRINT
-        i = 0
-        while not sensibility_check:
-            i+=1
-            thetas = []
-            for joint in self.robot.joints:
-                 thetas.append(6.28 * np.random.random() - 3.14)
-            self.robot.forwardKinmViaPositions(thetas)
-            if calculateManipulabilityIndex(self.robot) > 0.15:
-                sensibility_check = True
+        thetas = []
+        for joint in self.robot.joints:
+             thetas.append(6.28 * np.random.random() - 3.14)
+        self.robot.forwardKinmViaPositions(thetas)
+        if self.chill_reset == True:
+            sensibility_check = False
+            while not sensibility_check:
+                thetas = []
+                for joint in self.robot.joints:
+                     thetas.append(6.28 * np.random.random() - 3.14)
+                self.robot.forwardKinmViaPositions(thetas)
+                if calculateManipulabilityIndex(self.robot) > 0.15:
+                    sensibility_check = True
 
         obs = self._get_obs()
         return obs
