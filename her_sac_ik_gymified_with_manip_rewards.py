@@ -103,7 +103,7 @@ if __name__ == "__main__":
         algorithm='HER-SAC',
         version='normal',
         algo_kwargs=dict(
-            batch_size=128,
+            batch_size=256,
             num_epochs=2000,
             num_eval_steps_per_epoch=1000,
             num_expl_steps_per_train_loop=1000,
@@ -126,12 +126,12 @@ if __name__ == "__main__":
             fraction_goals_env_goals=0,
         ),
         qf_kwargs=dict(
-            hidden_sizes=[400, 300],
+            hidden_sizes=[400, 300, 250, 250, 200],
         ),
         policy_kwargs=dict(
-            hidden_sizes=[400, 300],
+            hidden_sizes=[400, 300, 250, 250, 200],
         ),
     )
-    ptu.set_gpu_mode(True)
-    setup_logger('her_sac_ik_gymified_with_manip_rewards_corrected', variant=variant)
+    #ptu.set_gpu_mode(True)
+    setup_logger('her_sac_ik_gymified_with_manip_rewards_final_5', variant=variant)
     experiment(variant)

@@ -409,7 +409,8 @@ class Robot_raw:
         if self.sim == 1:
             self.updateJointsAndJacobian()
         else:
-            self.calcJacobian()
+            if self.mode == "eval":
+                self.calcJacobian()
 
 
 
