@@ -21,7 +21,7 @@ policy = data['evaluation/policy'] # policy is equal to agent in rollout
 #env = gym.make('inverse_kinematics-with-manip-rewards-no-joint-observations-v0')
 env = gym.make('inverse_kinematics-with-manip-rewards-v0')
 env.render()
-obs = env.reset()
+#obs = env.reset()
 done = False
 
 
@@ -34,7 +34,7 @@ nSteps = 50
 
 results['sac_her'] = {'done': 0, 'rewards': 0, 'final_distance': 0}
 for experiment in range(nExperiments):
-    env.reset()
+    #env.reset()
     print('sac_her', experiment)
 
     rez = multitask_rollout(env, policy, max_path_length=nSteps, render=True,

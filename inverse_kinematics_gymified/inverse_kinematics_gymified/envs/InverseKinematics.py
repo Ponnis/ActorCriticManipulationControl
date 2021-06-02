@@ -137,7 +137,6 @@ class InverseKinematicsEnv(gym.Env):
 
 
     def reset(self):
-        # TODO: initialize robot joints state to a random (but valid (in joint range)) initial state
         self.episode_score = 0
         self.n_of_points_done += 1
         self.n_of_tries_for_point = 0
@@ -147,7 +146,6 @@ class InverseKinematicsEnv(gym.Env):
         
         # initialize to a random starting state and check whether it makes any sense
         sensibility_check = False
-        # TODO DELETE STUPID PRINT
         i = 0
         while not sensibility_check:
             i+=1
@@ -162,6 +160,19 @@ class InverseKinematicsEnv(gym.Env):
         return obs
 
 
+
+    def reset_test(self):
+        self.episode_score = 0
+        self.n_of_points_done += 1
+        self.n_of_tries_for_point = 0
+
+        # generate new point
+        self.goal = np.array([random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70)])
+        
+        # DO NOT initialize to a random starting state, keep the previous one
+
+        obs = self._get_obs()
+        return obs
 
 
 

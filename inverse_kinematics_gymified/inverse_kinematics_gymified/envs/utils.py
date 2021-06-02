@@ -24,7 +24,13 @@ def calculateSmallestManipEigenval(robot):
 def calculatePerformanceMetrics(robot):
     M = robot.jac_tri @ robot.jac_tri.T
     diagonal_of_svd_of_M = np.linalg.svd(M)[1]
+    singularity = 0 
+    try:
+        M_inv = np.linalg.inv(M)
+    except np.linalg.LinAlgError as e:
+        print("ROKNUH U SINGULARITET!!!!!!!!!!!")
+        singularity = 1
     return {'manip_index': np.sqrt(np.linalg.det(M)),
             'smallest_eigenval': diagonal_of_svd_of_M[diagonal_of_svd_of_M.argmin()],
-            'biggest_eigenval':diagonal_of_svd_of_M[diagonal_of_svd_of_M.argmax()] }
+            'singularity':singularity }
 

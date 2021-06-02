@@ -131,7 +131,8 @@ def rollout(
 
 
 pathOfNetworksToTest = [
-        "./trained_nets/her_sac_ik_gymified_with_manip_rewards_final_5_2021_05_24_22_53_24_0000--s-0/params.pkl"]
+        #"./trained_nets/her_sac_ik_gymified_with_manip_rewards_final_5_2021_05_24_22_53_24_0000--s-0/params.pkl"]
+        "./trained_nets/big_better_rewards/params.pkl"]
 
 # init env
 #env = gym.make('custom_fetch-v0')

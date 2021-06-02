@@ -2,8 +2,8 @@ import numpy as np
 import gym
 import inverse_kinematics_gymified
 
-#env = gym.make('custom_fetch-v0')
-env = gym.make('inverse_kinematics-with-manip-rewards-v0')
+env = gym.make('custom_fetch-v0')
+#env = gym.make('inverse_kinematics-with-manip-rewards-v0')
 #env = gym.make('FetchPickAndPlace-v1')
 env.render()
 obs = env.reset()

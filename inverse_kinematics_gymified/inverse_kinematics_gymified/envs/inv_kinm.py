@@ -10,14 +10,6 @@ import scipy.optimize
 from qpsolvers import solve_qp
 from qpsolvers import dense_solvers 
 
-##################################################
-# everything drawing related will just be deleted
-# you may try to set it up to work later
-# the problem is that the animation starts after everything is done,
-# and now i want to define ik functions to return angle changes for a single step.
-# i have no idea how to get dynamic animation, but 
-# if time allows it check it out
-####################################################
 
 # hardcoded for all joints
 # of course each joint can have its own limit
@@ -110,7 +102,7 @@ def invKinm_dampedSquares(r, t):
 #    e = np.array([0.0,0.0,-1.0], dtype=np.float32)
 #    e = np.array([0.0,1.0,0.0], dtype=np.float32)
 #    e = np.array([1.0,0.0,0.0], dtype=np.float32)
-    lamda = 1.1
+    lamda = 0.3
     iden = np.array([[1.,0.,0.], [0.,1.,0.], [0.,0.,1.]], dtype=np.float32)
 
     del_thet = r.jac_tri.T @ np.linalg.inv(r.jac_tri @ r.jac_tri.T + lamda**2 * iden) @ e
