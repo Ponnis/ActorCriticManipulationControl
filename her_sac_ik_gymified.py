@@ -130,5 +130,5 @@ if __name__ == "__main__":
             hidden_sizes=[400, 300],
         ),
     )
-    setup_logger('her-sac-stronger-convergence-rewards', variant=variant)
+    setup_logger('her-sac-stronger-convergence-rewards-neg-plus-inverse', variant=variant)
     experiment(variant)

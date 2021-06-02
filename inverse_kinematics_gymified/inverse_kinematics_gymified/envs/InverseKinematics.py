@@ -104,7 +104,7 @@ class InverseKinematicsEnv(gym.Env):
         if self.reward_type == 'dense':
             distance = goal_distance(achieved_goal, goal)
             if distance > 0.0001:
-                reward = 1 / distance
+                reward = -1 * distance + 1 / distance
             else:
                 reward = 10000
             return reward
