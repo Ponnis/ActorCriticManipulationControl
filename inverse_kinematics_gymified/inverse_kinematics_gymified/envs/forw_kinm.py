@@ -71,9 +71,10 @@ class Robot_raw:
                 self.sim = 0
                 self.robot_name = "no_sim"
             pass
-        self.mode = 'training'
-        #self.mode = 'eval'
-        self.clamp = 0
+        #self.mode = 'training'
+        self.mode = 'eval'
+        #self.clamp = 0
+        self.clamp = 1
         self.joints = []
         # TODO FIX READING FILES 
         if self.robot_name == "no_sim":
@@ -81,7 +82,8 @@ class Robot_raw:
             #fil = open('envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             #fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
             #fil = open('/chalmers/users/guberina/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
-            fil = open('/home/gospodar/chalmers/ADL/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            #fil = open('/home/gospodar/chalmers/ADL/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/ur10e_dh_parameters_from_the_ur_site', 'r')
+            fil = open('/home/gospodar/chalmers/ADL/ActorCriticManipulationControl/inverse_kinematics_gymified/inverse_kinematics_gymified/envs/arms/kuka_lbw_iiwa_dh_params', 'r')
             print("i'm using: testing_dh_parameters (which are UR10e params)")
         if self.robot_name == "UR10e":
             fil = open('arms/ur10e_dh_parameters_from_the_ur_site', 'r')
