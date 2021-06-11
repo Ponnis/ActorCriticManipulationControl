@@ -145,6 +145,7 @@ pathOfNetworksToTest = [
         "./trained_nets/her_sac_ik_gymified_with_manip_rewards_final_5_2021_05_24_22_53_24_0000--s-0/params.pkl",
         "./trained_nets/her-sac-no-manip-rewards_2021_05_25_10_55_18_0000--s-0/params.pkl",
         "./trained_nets/big_better_rewards/params.pkl",
+        "./trained_nets/her-sac-stronger-convergence-rewards-neg-plus-inverse_2021_06_02_14_36_52_0000--s-0/params.pkl",
         "./trained_nets/her-sac-stronger-convergence-rewards-neg-plus-inverse-CLAMP_2021_06_07_19_35_09_0000--s-0/params.pkl"]
 # init env
 #env = gym.make('custom_fetch-v0')
@@ -155,12 +156,17 @@ pathOfNetworksToTest = [
 data_manip_rewards = torch.load(pathOfNetworksToTest[0])
 data_no_manip_rewards = torch.load(pathOfNetworksToTest[1])
 data_big_net_manip_rewards = torch.load(pathOfNetworksToTest[2])
-data_clamp_no_manip_rewards = torch.load(pathOfNetworksToTest[3])
+data_pro_convergence_rewards = torch.load(pathOfNetworksToTest[3])
+#data_clamp_no_manip_rewards = torch.load(pathOfNetworksToTest[4])
+
 policy_trained_on_manip_rewards = data_manip_rewards['evaluation/policy'] # policy is equal to agent in rollout
 policy_no_manip_rewards = data_no_manip_rewards['evaluation/policy'] # policy is equal to agent in rollout
-policy_clamp_no_manip_rewards = data_clamp_no_manip_rewards['evaluation/policy']
+policy_manip_rewards_big_net = data_big_net_manip_rewards['evaluation/policy'] # policy is equal to agent in rollout
+policy_pro_convergence_rewards = data_pro_convergence_rewards['evaluation/policy']
+#policy_clamp_no_manip_rewards = data_clamp_no_manip_rewards['evaluation/policy']
 #env = gym.make('inverse_kinematics-with-manip-rewards-no-joint-observations-v0')
-env = gym.make('inverse_kinematics-with-manip-rewards-v0')
+#env = gym.make('inverse_kinematics-with-manip-rewards-v0')
+env = gym.make('inverse_kinematics-v0')
 #env.render()
 obs = env.reset()
 done = False
@@ -199,7 +205,7 @@ algs = ['transpose', 'pseudoinverse', 'damped squares', 'advanced QP']
 #nExperiments = 220
 nExperiments = 250
 #nExperiments = 2
-nSteps = 100
+nSteps = 50
 
 results['meta'] = {'nExperiments': nExperiments, 'nSteps': nSteps}
 #-------------------------------------------------------------------
@@ -243,122 +249,149 @@ if 0 == 0:
     # run sac her clamp edition
     ####################################################################
 
-    results['RL reward 1'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+#    results['RL_2'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+#                        'manip_indexes': [], 'singularities' : 0}
+#
+#    for experiment in range(nExperiments):
+#        env.reset_test()
+#        print('RL_2', experiment)
+#
+#        rez = multitask_rollout(env, policy_clamp_no_manip_rewards, max_path_length=nSteps, 
+#                render=False,
+#                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+#        #print(rez['rewards'])
+#        results['RL_2']['returns'].append(sum(rez['rewards']))
+#        results['RL_2']['successes'] += rez['env_infos'][-1]['is_success']
+#        results['RL_2']['final_distances'].append(
+#                                                inverse_kinematics_gymified.envs.utils.goal_distance(
+#                                                rez['observations'][-1]['achieved_goal'], 
+#                                                rez['observations'][-1]['desired_goal']))
+#        results['RL_2']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+#        results['RL_2']['manip_indexes'].append(rez['manip_indexes'])
+#        results['RL_2']['singularities'] += rez['singularity']
+#
+#        if rezz['singularity'] == 1:
+#            env.reset()
+
+
+    ####################################################################
+    # run sac her with manip rewards
+    ####################################################################
+
+    results['RL_2'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
                         'manip_indexes': [], 'singularities' : 0}
 
     for experiment in range(nExperiments):
         env.reset_test()
-        print('RL reward 1', experiment)
+        print('RL_2', experiment)
 
-        rez = multitask_rollout(env, policy_clamp_no_manip_rewards, max_path_length=nSteps, 
+        rez = multitask_rollout(env, policy_trained_on_manip_rewards, max_path_length=nSteps, 
                 render=False,
                 observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
         #print(rez['rewards'])
-        results['RL reward 1']['returns'].append(sum(rez['rewards']))
-        results['RL reward 1']['successes'] += rez['env_infos'][-1]['is_success']
-        results['RL reward 1']['final_distances'].append(
+        results['RL_2']['returns'].append(sum(rez['rewards']))
+        results['RL_2']['successes'] += rez['env_infos'][-1]['is_success']
+        results['RL_2']['final_distances'].append(
                                                 inverse_kinematics_gymified.envs.utils.goal_distance(
                                                 rez['observations'][-1]['achieved_goal'], 
                                                 rez['observations'][-1]['desired_goal']))
-        results['RL reward 1']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
-        results['RL reward 1']['manip_indexes'].append(rez['manip_indexes'])
-        results['RL reward 1']['singularities'] += rez['singularity']
+        results['RL_2']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+        results['RL_2']['manip_indexes'].append(rez['manip_indexes'])
+        results['RL_2']['singularities'] += rez['singularity']
 
         if rezz['singularity'] == 1:
             env.reset()
 
 
-#    ####################################################################
-#    # run sac her with manip rewards
-#    ####################################################################
-#
-#    results['RL reward 1'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
-#                        'manip_indexes': [], 'singularities' : 0}
-#
-#    for experiment in range(nExperiments):
-#        env.reset_test()
-#        print('RL reward 1', experiment)
-#
-#        rez = multitask_rollout(env, policy_trained_on_manip_rewards, max_path_length=nSteps, 
-#                render=False,
-#                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
-#        #print(rez['rewards'])
-#        results['RL reward 1']['returns'].append(sum(rez['rewards']))
-#        results['RL reward 1']['successes'] += rez['env_infos'][-1]['is_success']
-#        results['RL reward 1']['final_distances'].append(
-#                                                inverse_kinematics_gymified.envs.utils.goal_distance(
-#                                                rez['observations'][-1]['achieved_goal'], 
-#                                                rez['observations'][-1]['desired_goal']))
-#        results['RL reward 1']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
-#        results['RL reward 1']['manip_indexes'].append(rez['manip_indexes'])
-#        results['RL reward 1']['singularities'] += rez['singularity']
-#
-#        if rezz['singularity'] == 1:
-#            env.reset()
 
+   ####################################################################
+   # run sac her with distance only rewards
+   ####################################################################
+    results['RL_1'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+                        'manip_indexes': [], 'singularities' : 0}
 
+    for experiment in range(nExperiments):
+        env.reset_test()
+        print('RL_1', experiment)
 
-    ####################################################################
-    # run sac her with distance only rewards
-    ####################################################################
-#    results['RL reward 2'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
-#                        'manip_indexes': [], 'singularities' : 0}
-#
-#    for experiment in range(nExperiments):
-#        env.reset_test()
-#        print('RL reward 2', experiment)
-#
-#        rez = multitask_rollout(env, policy_no_manip_rewards, max_path_length=nSteps, 
-#                render=False,
-#                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
-#        #print(rez['rewards'])
-#        results['RL reward 2']['returns'].append(sum(rez['rewards']))
-#        results['RL reward 2']['successes'] += rez['env_infos'][-1]['is_success']
-#        results['RL reward 2']['final_distances'].append(
-#                                                inverse_kinematics_gymified.envs.utils.goal_distance(
-#                                                rez['observations'][-1]['achieved_goal'], 
-#                                                rez['observations'][-1]['desired_goal']))
-#        results['RL reward 2']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
-#        results['RL reward 2']['manip_indexes'].append(rez['manip_indexes'])
-#        results['RL reward 2']['singularities'] += rez['singularity']
-#        if rezz['singularity'] == 1:
-#            env.reset()
+        rez = multitask_rollout(env, policy_no_manip_rewards, max_path_length=nSteps, 
+                render=False,
+                observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+        #print(rez['rewards'])
+        results['RL_1']['returns'].append(sum(rez['rewards']))
+        results['RL_1']['successes'] += rez['env_infos'][-1]['is_success']
+        results['RL_1']['final_distances'].append(
+                                                inverse_kinematics_gymified.envs.utils.goal_distance(
+                                                rez['observations'][-1]['achieved_goal'], 
+                                                rez['observations'][-1]['desired_goal']))
+        results['RL_1']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+        results['RL_1']['manip_indexes'].append(rez['manip_indexes'])
+        results['RL_1']['singularities'] += rez['singularity']
+        if rezz['singularity'] == 1:
+            env.reset()
 
 
 
 
 ####################################################################
-# run sac her with distance only rewards
+# run sac her with distance only rewards and big net
 ####################################################################
-#results['big net'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
-#                    'manip_indexes': [], 'singularities' : 0}
-#
-#for experiment in range(nExperiments):
-#    env.reset_test()
-#    print('big net', experiment)
-#
-#    rez = multitask_rollout(env, policy_no_manip_rewards, max_path_length=nSteps, 
-#            render=False,
-#            observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
-#    #print(rez['rewards'])
-#    results['big net']['returns'].append(sum(rez['rewards']))
-#    results['big net']['successes'] += rez['env_infos'][-1]['is_success']
-#    results['big net']['final_distances'].append(
-#                                            inverse_kinematics_gymified.envs.utils.goal_distance(
-#                                            rez['observations'][-1]['achieved_goal'], 
-#                                            rez['observations'][-1]['desired_goal']))
-#    results['big net']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
-#    results['big net']['manip_indexes'].append(rez['manip_indexes'])
-#    results['big net']['singularities'] += rez['singularity']
-#    if rez['singularity'] == 1:
-#        env.reset()
-#
+results['RL_2_big_net'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+                    'manip_indexes': [], 'singularities' : 0}
+
+for experiment in range(nExperiments):
+    env.reset_test()
+    print('RL_2_big_net', experiment)
+
+    rez = multitask_rollout(env, policy_manip_rewards_big_net, max_path_length=nSteps, 
+            render=False,
+            observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+    #print(rez['rewards'])
+    results['RL_2_big_net']['returns'].append(sum(rez['rewards']))
+    results['RL_2_big_net']['successes'] += rez['env_infos'][-1]['is_success']
+    results['RL_2_big_net']['final_distances'].append(
+                                            inverse_kinematics_gymified.envs.utils.goal_distance(
+                                            rez['observations'][-1]['achieved_goal'], 
+                                            rez['observations'][-1]['desired_goal']))
+    results['RL_2_big_net']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+    results['RL_2_big_net']['manip_indexes'].append(rez['manip_indexes'])
+    results['RL_2_big_net']['singularities'] += rez['singularity']
+    if rez['singularity'] == 1:
+        env.reset()
+
+
+
+####################################################################
+# run sac her with pro convergence rewards
+####################################################################
+results['RL_3'] = {'successes': 0, 'returns': [], 'final_distances': [], 'smallest_eigenvals': [],
+                    'manip_indexes': [], 'singularities' : 0}
+
+for experiment in range(nExperiments):
+    env.reset_test()
+    print('RL_3', experiment)
+
+    rez = multitask_rollout(env, policy_pro_convergence_rewards, max_path_length=nSteps, 
+            render=False,
+            observation_key='observation', desired_goal_key='desired_goal', return_dict_obs=True)
+    #print(rez['rewards'])
+    results['RL_3']['returns'].append(sum(rez['rewards']))
+    results['RL_3']['successes'] += rez['env_infos'][-1]['is_success']
+    results['RL_3']['final_distances'].append(
+                                            inverse_kinematics_gymified.envs.utils.goal_distance(
+                                            rez['observations'][-1]['achieved_goal'], 
+                                            rez['observations'][-1]['desired_goal']))
+    results['RL_3']['smallest_eigenvals'].append(rez['smallest_eigenvals'])
+    results['RL_3']['manip_indexes'].append(rez['manip_indexes'])
+    results['RL_3']['singularities'] += rez['singularity']
+    if rez['singularity'] == 1:
+        env.reset()
 
 ####################################################################
 # save results to a file
 ####################################################################
 
-file = open('results_clamp_edition', 'wb')
+file = open('results_NO_clamp_FINAL_only_neg_dist_rewards', 'wb')
 pickle.dump(results, file)
 file.close()
 

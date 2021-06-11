@@ -2,24 +2,27 @@ import numpy as np
 import pickle
 import matplotlib.pyplot as plt
 
-file = open('results_7_big', 'rb')
+#file = open('results_clamp_edition', 'rb')
+#file = open('results_7_big', 'rb')
+#file = open('results_NO_clamp_FINAL', 'rb')
+file = open('results_NO_clamp_FINAL_only_neg_dist_rewards', 'rb')
 #file = open('results_8_big', 'rb')
 results = pickle.load(file)
 file.close()
 
 
-file = open('./results_big_net_only', 'rb')
-#file = open('results_8_big', 'rb')
-results_extra = pickle.load(file)
-file.close()
-
-results.update(results_extra)
+#file = open('./results_big_net_only', 'rb')
+##file = open('results_8_big', 'rb')
+#results_extra = pickle.load(file)
+#file.close()
+#results.update(results_extra)
 
 nExperiments = results['meta']['nExperiments']
 nSteps = results['meta']['nSteps']
 
 algs = list(results.keys())
 algs.remove('meta')
+print(algs)
 returns = []
 returns_stds = []
 successes = []
@@ -37,7 +40,16 @@ singularities = []
 # also label the y axis pls
 for alg in algs:
     # returns
-    returns_alg = np.array(results[alg]['returns'])
+    returns_alg = results[alg]['returns']
+    for i in range(len(returns_alg)):
+        if np.isnan(returns_alg[i]):
+            returns_alg[i] = 'a'
+    while True:
+        try:
+            returns_alg.remove('a')
+        except ValueError:
+            break
+    returns_alg = np.array(returns_alg)
     mean = np.mean(returns_alg)
     std = np.std(returns_alg)
     returns.append(mean)

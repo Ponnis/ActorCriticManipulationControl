@@ -105,9 +105,11 @@ class InverseKinematicsEnv(gym.Env):
         if self.reward_type == 'dense':
             distance = goal_distance(achieved_goal, goal)
             if distance > 0.0001:
-                reward = -1 * distance + 1 / distance
+                #reward = -1 * distance + 1 / distance
+                reward = -1 * distance 
             else:
-                reward = 10000
+                #reward = 10000
+                reward = 0
             return reward
             
 
@@ -164,6 +166,18 @@ class InverseKinematicsEnv(gym.Env):
 
 
 
+    def reset_test(self):
+        self.episode_score = 0
+        self.n_of_points_done += 1
+        self.n_of_tries_for_point = 0
+
+        # generate new point
+        self.goal = np.array([random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70), random.uniform(-0.70, 0.70)])
+        
+        # DO NOT initialize to a random starting state, keep the previous one
+
+        obs = self._get_obs()
+        return obs
 
 
     def close(self):
