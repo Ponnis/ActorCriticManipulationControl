@@ -385,7 +385,7 @@ class Robot_raw:
 
 
 
-    def forwardKinmViaPositions(self, thetas):
+    def forwardKinmViaPositions(self, thetas, extra_damping):
 # potential clamping for joint rotation limits
 #   ==> ur10e does not have joint limits, but other robots might
     # offset for j2n6s300
@@ -400,13 +400,13 @@ class Robot_raw:
                 if self.sim == 1:
                     self.motors[i].setPosition(clampTheta(self.joints[i].theta + thetas[i]))
                 else:
-                    self.joints[i].rotate_numerically(clampTheta(self.joints[i].theta + thetas[i]), self.clamp)
+                    self.joints[i].rotate_numerically(clampTheta((self.joints[i].theta + thetas[i]) / extra_damping), self.clamp)
             # no clamp
             else:
                 if self.sim == 1:
                     self.motors[i].setPosition(self.joints[i].theta + thetas[i])
                 else:
-                    self.joints[i].rotate_numerically(thetas[i] + self.joints[i].theta, self.clamp)
+                    self.joints[i].rotate_numerically((thetas[i] + self.joints[i].theta) / extra_damping, self.clamp)
 
         if self.sim == 1:
             self.updateJointsAndJacobian()

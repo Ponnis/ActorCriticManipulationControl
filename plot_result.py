@@ -4,8 +4,9 @@ import matplotlib.pyplot as plt
 
 #file = open('results_clamp_edition', 'rb')
 #file = open('results_7_big', 'rb')
-#file = open('results_NO_clamp_FINAL', 'rb')
-file = open('results_NO_clamp_FINAL_only_neg_dist_rewards', 'rb')
+file = open('results_NO_clamp_FINAL', 'rb')
+#file = open('results_NO_clamp_FINAL_only_neg_dist_rewards', 'rb')
+#file = open('./results_CLAMP_FINAL_only_neg_dist_rewards', 'rb')
 #file = open('results_8_big', 'rb')
 results = pickle.load(file)
 file.close()
@@ -33,6 +34,7 @@ smallest_eigenvals_stds = []
 manip_indexes = []
 manip_indexes_stds = []
 singularities = []
+disasters = []
 
 
 # TODO change this so that it shows standard deviations as well
@@ -64,6 +66,13 @@ for alg in algs:
     std = np.std(final_dists_alg)
     final_dists.append(mean)
     final_dists_stds.append(std)
+
+    # disasters - let's call it distance over 0.2
+    disasters_alg = 0
+    for f in final_dists_alg:
+        if f > 0.2:
+            disasters_alg += 1
+    disasters.append((disasters_alg / nExperiments ) * 100)
 
     # smallest eigenvals
     smallest_eigenvals_alg = np.array(results[alg]['smallest_eigenvals'])
@@ -129,3 +138,10 @@ plt.ylabel('percentage')
 plt.savefig('./result_graphs/singularities.png', dpi=600)
 plt.show()
 
+
+# disasters
+plt.bar(algs, disasters)
+plt.title('Percentage of runs ending in disasters')
+plt.ylabel('percentage')
+plt.savefig('./result_graphs/disasters.png', dpi=600)
+plt.show()

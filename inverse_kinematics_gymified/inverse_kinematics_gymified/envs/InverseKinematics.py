@@ -85,8 +85,8 @@ class InverseKinematicsEnv(gym.Env):
                                     dtype='float32'),
         ))
 
-        self.action_space = Box(low=np.array([-1.0] * self.robot.ndof, dtype=np.float32),  \
-                                high=np.array([1.0] * self.robot.ndof, dtype=np.float32), dtype=np.float32)
+        self.action_space = Box(low=np.array([-1.0] * self.robot.ndof + [1.0], dtype=np.float32),  \
+                                high=np.array([1.0] * self.robot.ndof + [10.0], dtype=np.float32), dtype=np.float32)
 
         # TODO enable setting the other one with greater ease
         self.reward_type = 'dense'
@@ -104,19 +104,18 @@ class InverseKinematicsEnv(gym.Env):
                 return np.float32(10.0)
         if self.reward_type == 'dense':
             distance = goal_distance(achieved_goal, goal)
-            if distance > 0.0001:
+            if not error_test(self.robot, self.goal):
                 #reward = -1 * distance + 1 / distance
                 reward = -1 * distance 
             else:
-                #reward = 10000
-                reward = 0
+                reward = 100
             return reward
             
 
 
     def step(self, action):
         action = np.clip(action, self.action_space.low, self.action_space.high)
-        self.robot.forwardKinmViaPositions(action / self.damping)
+        self.robot.forwardKinmViaPositions(action[:-1] / self.damping, action[-1])
         self.n_of_tries_for_point += 1
         obs = self._get_obs()
 

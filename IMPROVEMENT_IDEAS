@@ -1,0 +1,45 @@
+we have the following problem:
+our thing does not converge
+
+possible solution 1
+------------------------
+my suspicion is that the network is not able to produce super small values 
+simply due to weight sizes - it can produce the right combinations to 
+get the direction, but it fails to scale them down in the end (after
+all it tries to make them as big as possible at all other times).
+
+thus the network should be granted an easier way to scale its action
+outputs. we already have this and it's called damping!
+of course, we do not want the network to run loose with and give itself
+no damping or make it negative or whatever so we will upper and lower bound
+the damping by first slapping an limited range activation function
+and then rescaling the output to the appropriate interval for damping.
+in total, we increase the action space by one dimension and that is the scalar
+damping for all joints (one could divide them for each joint,
+but this seems unnecessary for the first version).
+
+one can expect that it will be difficult (take long time to train)
+for the network to fine-tune the damping.
+to help it map the difference in the damping factor to the
+corresponding speeding up/slowing down of the end-effector position,
+we could slap the previous observed end-effector position to the
+observations. we could also make the network have feedback and/or 
+preserve state like an lstm.
+one could preserve the internal state over the whole episode (1 ik task)
+and empty it when starting a new one.
+
+
+possible solution 2
+------------------------
+another thing we might try and this one seems much more reliable, 
+straightforward to implement and + we can get some 
+convergence guarantees: 
+let a classical algorithm take control once the end-effector is
+sufficiently close, say 10 cm. at that point you don't make
+any significant pefromance gains because the trajectory is already 
+95% finished. furthermore, one could limit the time the network
+has to reach the point in order to have some more guarantees 
+on the controller (but this one seems much less important overall).
+
+
+
