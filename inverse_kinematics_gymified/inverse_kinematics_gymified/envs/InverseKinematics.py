@@ -104,7 +104,7 @@ class InverseKinematicsEnv(gym.Env):
                 return np.float32(10.0)
         if self.reward_type == 'dense':
             distance = goal_distance(achieved_goal, goal)
-            if not error_test(self.robot, self.goal):
+            if not error_test(self.robot.p_e, self.goal):
                 #reward = -1 * distance + 1 / distance
                 reward = -1 * distance 
             else:
@@ -149,14 +149,14 @@ class InverseKinematicsEnv(gym.Env):
         thetas = []
         for joint in self.robot.joints:
              thetas.append(6.28 * np.random.random() - 3.14)
-        self.robot.forwardKinmViaPositions(thetas)
+        self.robot.forwardKinmViaPositions(thetas, 1)
         if self.chill_reset == True:
             sensibility_check = False
             while not sensibility_check:
                 thetas = []
                 for joint in self.robot.joints:
                      thetas.append(6.28 * np.random.random() - 3.14)
-                self.robot.forwardKinmViaPositions(thetas)
+                self.robot.forwardKinmViaPositions(thetas , 1)
                 if calculateManipulabilityIndex(self.robot) > 0.15:
                     sensibility_check = True
 

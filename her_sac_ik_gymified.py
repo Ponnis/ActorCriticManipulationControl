@@ -107,7 +107,7 @@ if __name__ == "__main__":
             num_expl_steps_per_train_loop=1000,
             num_trains_per_train_loop=1000,
             min_num_steps_before_training=1000,
-            max_path_length=50,
+            max_path_length=60,
         ),
         sac_trainer_kwargs=dict(
             discount=0.99,
@@ -119,7 +119,7 @@ if __name__ == "__main__":
             use_automatic_entropy_tuning=True,
         ),
         replay_buffer_kwargs=dict(
-            max_size=int(1E6),
+            max_size=int(4 * 1E6),
             fraction_goals_rollout_goals=0.2,  # equal to k = 4 in HER paper
             fraction_goals_env_goals=0,
         ),
@@ -131,5 +131,5 @@ if __name__ == "__main__":
         ),
     )
     #setup_logger('her-sac-stronger-convergence-rewards-neg-plus-inverse', variant=variant)
-    setup_logger('her-sac-stronger-convergence-rewards-neg-plus-inverse-CLAMP', variant=variant)
+    setup_logger('her-sac-damping-control-added', variant=variant)
     experiment(variant)
